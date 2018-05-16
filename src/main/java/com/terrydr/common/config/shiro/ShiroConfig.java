@@ -25,14 +25,14 @@ public class ShiroConfig {
     @Value("${cacheType}")
     private String cacheType;
 
-    /**
+   /* *//**
     * @Description: shiro security manager bean
     * @param
     * @return SecurityManager
     * @throws
     * @author YanZhengYaun
     * @date 2018/5/4 14:32
-    */
+    *//*
     @Bean
     public SecurityManager securityManager(OSSRealm realm){
         DefaultWebSecurityManager securityManager =  new DefaultWebSecurityManager();
@@ -46,6 +46,6 @@ public class ShiroConfig {
         }
         securityManager.setSessionManager(sessionManager());
         return securityManager;
-    }
+    }*/
     
 }

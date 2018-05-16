@@ -1,8 +1,13 @@
 package com.terrydr.platform.controller;
 
+import org.springframework.cache.annotation.CacheConfig;
+import org.springframework.cache.annotation.Cacheable;
+import org.springframework.cache.ehcache.EhCacheCacheManager;
 import org.springframework.stereotype.Controller;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.ResponseBody;
+
+import javax.annotation.Resource;
 
 /**
  * Copyright (C), 2018-2020, NanJing Terrydr. Co., Ltd.
@@ -14,7 +19,11 @@ import org.springframework.web.bind.annotation.ResponseBody;
  * @version: 1.00
  */
 @Controller
+@CacheConfig(cacheNames = "verifyCode")
 public class LoginController {
+
+    @Resource
+    private EhCacheCacheManager cacheManager;
 
     @RequestMapping("/")
     public String defaultPath(){
@@ -26,9 +35,16 @@ public class LoginController {
         return null;
     }
 
-    @RequestMapping("/verifyCode")
+    @RequestMapping("/getCacheValue")
     @ResponseBody
     public String verifyCode(){
+        return cacheManager.getCache("verifyCode").get("123", String.class);
+    }
+
+    @RequestMapping("/verifyCode")
+    @ResponseBody
+    @Cacheable
+    public String verifyCode(String key){
         return "123456";
     }
 
