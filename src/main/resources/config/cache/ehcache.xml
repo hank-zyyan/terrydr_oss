@@ -7,10 +7,11 @@
 
     <!-- 默认缓存 -->
     <defaultCache
+            maxElementsInMemory="1000"
             maxEntriesLocalHeap="10000"
             eternal="false"
-            timeToIdleSeconds="120"
-            timeToLiveSeconds="120"
+            timeToIdleSeconds="0"
+            timeToLiveSeconds="600"
             maxEntriesLocalDisk="10000000"
             diskExpiryThreadIntervalSeconds="120"
             memoryStoreEvictionPolicy="LRU">
@@ -21,8 +22,9 @@
     <cache name="verifyCode"
            maxElementsInMemory="1000"
            eternal="false"
-           timeToIdleSeconds="5"
-           timeToLiveSeconds="5"
+           timeToIdleSeconds="0"
+           timeToLiveSeconds="180"
            overflowToDisk="false"
            memoryStoreEvictionPolicy="LRU"/>
+
 </ehcache>

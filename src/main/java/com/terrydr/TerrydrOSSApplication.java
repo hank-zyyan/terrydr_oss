@@ -4,6 +4,7 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.boot.SpringApplication;
 import org.springframework.boot.autoconfigure.SpringBootApplication;
 import org.springframework.boot.autoconfigure.jdbc.DataSourceAutoConfiguration;
+import org.springframework.cache.Cache;
 import org.springframework.cache.ehcache.EhCacheCacheManager;
 import org.springframework.transaction.annotation.EnableTransactionManagement;
 
@@ -21,13 +22,6 @@ import org.springframework.transaction.annotation.EnableTransactionManagement;
 @EnableTransactionManagement
 public class TerrydrOSSApplication {
 
-    private static EhCacheCacheManager cacheManager;
-
-    @Autowired
-    public void setEhCacheCacheManager(EhCacheCacheManager cacheManager){
-        TerrydrOSSApplication.cacheManager = cacheManager;
-    }
-
     /**
     * @Description: 程序入口方法
     * @param args
@@ -38,6 +32,5 @@ public class TerrydrOSSApplication {
     */
     public static void main(String[] args) {
         SpringApplication.run(TerrydrOSSApplication.class, args);
-        cacheManager.getCache("verifyCode");
     }
 }

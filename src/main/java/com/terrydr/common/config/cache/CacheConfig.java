@@ -21,15 +21,17 @@ import org.springframework.core.io.ClassPathResource;
 public class CacheConfig {
 
     @Bean
-    public EhCacheCacheManager ehCacheCacheManager(EhCacheManagerFactoryBean bean){
-        return new EhCacheCacheManager (bean.getObject ());
+    public EhCacheCacheManager ehCacheCacheManager(){
+        EhCacheCacheManager ehCacheCacheManager = new EhCacheCacheManager();
+        ehCacheCacheManager.setCacheManager(ehCacheManagerFactoryBean().getObject());
+        ehCacheCacheManager.setTransactionAware(true);
+        return ehCacheCacheManager;
     }
-
 
     @Bean
     public EhCacheManagerFactoryBean ehCacheManagerFactoryBean(){
         EhCacheManagerFactoryBean cacheManagerFactoryBean = new EhCacheManagerFactoryBean ();
-        cacheManagerFactoryBean.setConfigLocation (new ClassPathResource("classpath:config/cache/ehcache.xml"));
+        cacheManagerFactoryBean.setConfigLocation (new ClassPathResource("config/cache/ehcache.xml"));
         cacheManagerFactoryBean.setShared (true);
         return cacheManagerFactoryBean;
     }
