@@ -28,4 +28,13 @@ logging:
   level:
     root: info
     com.terrydr: debug
+    org.apache.shiro: ALL
 
+#打开自动配置报告
+debug: true
+
+#开发热部署
+#模板热部署
+spring:
+  thymeleaf:
+    cache: false

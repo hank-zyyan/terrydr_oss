@@ -20,7 +20,6 @@ import javax.annotation.Resource;
  * @Date: 2018/4/18 13:54
  * @version: 1.00
  */
-@Component
 public class OSSRealm extends AuthorizingRealm {
 
     @Resource

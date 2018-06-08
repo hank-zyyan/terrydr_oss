@@ -1,5 +1,6 @@
 package com.terrydr.common.cache;
 
+import com.terrydr.TerrydrOSSApplication;
 import com.terrydr.platform.domain.PlatformMenu;
 import org.junit.Before;
 import org.junit.Test;
@@ -24,7 +25,7 @@ import javax.annotation.Resource;
  * @version: 1.00
  */
 @RunWith(SpringRunner.class)
-@SpringBootTest
+@SpringBootTest(classes = TerrydrOSSApplication.class)
 public class TestCache {
 
     private Logger log = LoggerFactory.getLogger(TestCache.class);

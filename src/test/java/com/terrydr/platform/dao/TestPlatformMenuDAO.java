@@ -1,5 +1,6 @@
 package com.terrydr.platform.dao;
 
+import com.terrydr.TerrydrOSSApplication;
 import com.terrydr.platform.domain.PlatformMenu;
 import org.junit.Test;
 import org.junit.runner.RunWith;
@@ -22,7 +23,7 @@ import javax.annotation.Resource;
  * @version: 1.00
  */
 @RunWith(SpringRunner.class)
-@SpringBootTest
+@SpringBootTest(classes = TerrydrOSSApplication.class)
 @Transactional
 public class TestPlatformMenuDAO {
 

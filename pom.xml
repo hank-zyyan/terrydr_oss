@@ -7,6 +7,7 @@
     <groupId>com.terrydr</groupId>
     <artifactId>terrydr_oss</artifactId>
     <version>1.0-SNAPSHOT</version>
+    <packaging>jar</packaging>
 
     <parent>
         <groupId>org.springframework.boot</groupId>
@@ -29,6 +30,12 @@
             <groupId>junit</groupId>
             <artifactId>junit</artifactId>
             <version> 4.12</version>
+        </dependency>
+
+        <!--dev settings-->
+        <dependency>
+            <groupId>org.springframework.boot</groupId>
+            <artifactId>spring-boot-devtools</artifactId>
         </dependency>
 
         <!--aop settings-->
@@ -139,10 +146,10 @@
         </dependency>
 
         <!--schedule settings-->
-        <dependency>
+        <!--<dependency>
             <groupId>org.quartz-scheduler</groupId>
             <artifactId>quartz</artifactId>
-        </dependency>
+        </dependency>-->
 
         <!--web socket settings-->
         <dependency>
@@ -175,6 +182,9 @@
             <plugin>
                 <groupId>org.springframework.boot</groupId>
                 <artifactId>spring-boot-maven-plugin</artifactId>
+                <configuration>
+                    <executable>true</executable> <!--开启Linux服务，如命令开启、关闭及开机启动-->
+                </configuration>
             </plugin>
 
             <!--mybatis auoto generator-->

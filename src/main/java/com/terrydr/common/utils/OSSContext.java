@@ -14,6 +14,5 @@ import java.util.Map;
  */
 public class OSSContext {
 
-    private static final Map<String, String> verifyCodeMap = new HashMap<String, String>();
 
 }

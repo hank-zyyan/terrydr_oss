@@ -2,9 +2,9 @@ package com.terrydr.common.shiro;
 
 
 import com.terrydr.common.utils.Constant;
-import org.apache.shiro.web.servlet.ShiroHttpServletRequest;
 import org.apache.shiro.web.session.mgt.DefaultWebSessionManager;
 import org.apache.shiro.web.util.WebUtils;
+import org.springframework.stereotype.Component;
 import org.springframework.util.StringUtils;
 
 import javax.servlet.ServletRequest;
@@ -36,9 +36,6 @@ public class OSSSessionManager extends DefaultWebSessionManager {
         String id = WebUtils.toHttp(request).getHeader(Constant.ACCESS_TOKEN_KEY);
         //如果请求头中有 ACCESS_TOKEN_KEY 则其值为sessionId
         if (!StringUtils.isEmpty(id)) {
-            request.setAttribute(ShiroHttpServletRequest.REFERENCED_SESSION_ID_SOURCE, "Stateless request");
-            request.setAttribute(ShiroHttpServletRequest.REFERENCED_SESSION_ID, id);
-            request.setAttribute(ShiroHttpServletRequest.REFERENCED_SESSION_ID_IS_VALID, Boolean.TRUE);
             return id;
         } else {
             //否则按默认规则从cookie取sessionId

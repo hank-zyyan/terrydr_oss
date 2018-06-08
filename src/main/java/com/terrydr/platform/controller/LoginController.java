@@ -8,6 +8,7 @@ import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.ResponseBody;
 
 import javax.annotation.Resource;
+import java.util.concurrent.Callable;
 
 /**
  * Copyright (C), 2018-2020, NanJing Terrydr. Co., Ltd.
@@ -20,12 +21,13 @@ import javax.annotation.Resource;
  */
 @Controller
 @CacheConfig(cacheNames = "verifyCode")
+@RequestMapping("/login")
 public class LoginController {
 
     @Resource
     private EhCacheCacheManager cacheManager;
 
-    @RequestMapping("/")
+    @RequestMapping("/v")
     public String defaultPath(){
         return "redirect:verifyCode";
     }
@@ -41,11 +43,16 @@ public class LoginController {
         return cacheManager.getCache("verifyCode").get("123", String.class);
     }
 
-    @RequestMapping("/verifyCode")
+    @RequestMapping("")
     @ResponseBody
-    @Cacheable
-    public String verifyCode(String key){
-        return "123456";
+    public Callable callable(){
+        return new Callable() {
+            @Override
+            public Object call() throws Exception {
+                Thread.sleep(5000);
+                return "5 seconds later";
+            }
+        };
     }
 
 }
