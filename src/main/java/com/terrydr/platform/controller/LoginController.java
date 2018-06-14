@@ -1,58 +1,97 @@
 package com.terrydr.platform.controller;
 
-import org.springframework.cache.annotation.CacheConfig;
-import org.springframework.cache.annotation.Cacheable;
-import org.springframework.cache.ehcache.EhCacheCacheManager;
+import com.terrydr.common.domain.Response;
+import com.terrydr.common.exception.authenticator.UserLockedException;
+import com.terrydr.common.exception.authenticator.UserNotExistsException;
+import com.terrydr.common.exception.authenticator.WrongVerifyCodeException;
+import com.terrydr.common.utils.OSSContext;
+import org.apache.commons.logging.Log;
+import org.apache.commons.logging.LogFactory;
+import org.apache.shiro.authc.AuthenticationException;
+import org.springframework.http.MediaType;
 import org.springframework.stereotype.Controller;
+import org.springframework.ui.Model;
+import org.springframework.web.bind.annotation.GetMapping;
+import org.springframework.web.bind.annotation.PostMapping;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.ResponseBody;
+import sun.reflect.generics.tree.Tree;
 
-import javax.annotation.Resource;
-import java.util.concurrent.Callable;
+import java.util.ArrayList;
+import java.util.List;
 
 /**
  * Copyright (C), 2018-2020, NanJing Terrydr. Co., Ltd.
  *
  * @Package: com.terrydr.platform.controller
- * @Description: ${TODO}
+ * @Description: 登陆控制器
  * @author: YanZhengYuan
  * @Date: 2018/4/17 11:19
  * @version: 1.00
  */
 @Controller
-@CacheConfig(cacheNames = "verifyCode")
-@RequestMapping("/login")
 public class LoginController {
 
-    @Resource
-    private EhCacheCacheManager cacheManager;
+    private static final Log logger = LogFactory.getLog(LoginController.class);
 
-    @RequestMapping("/v")
+    @RequestMapping("/")
     public String defaultPath(){
-        return "redirect:verifyCode";
+        return "redirect:index";
     }
 
-    @RequestMapping("/login")
-    public String login(String username, String password, String verifyCode){
-        return null;
+    @RequestMapping("/index")
+    public String welcome(Model model){
+        model.addAttribute("menus", OSSContext.getPlatformMenuService().getUserMenu());
+        return "index_v1";
     }
 
-    @RequestMapping("/getCacheValue")
+    /** login section **/
+
+    @PostMapping(value="/login",produces = {MediaType.APPLICATION_JSON_VALUE})
     @ResponseBody
-    public String verifyCode(){
-        return cacheManager.getCache("verifyCode").get("123", String.class);
+    public Response ajaxLogin(String username, String password, String verifyCode){
+        logger.debug(OSSContext.isAuthenticated());
+
+        logger.debug(OSSContext.getCurrentUser());
+
+        try {
+            OSSContext.login(username, password, verifyCode);
+        }catch (WrongVerifyCodeException | UserNotExistsException | UserLockedException ae){
+            return Response.fail(ae.getMessage());
+        } catch (AuthenticationException ae){
+            return Response.fail("用户名或密码错误");
+        }
+
+        logger.debug(OSSContext.getCurrentUser());
+
+        logger.debug(OSSContext.getAccessToken());
+
+        return Response.success(OSSContext.getAccessToken(), null);
     }
 
-    @RequestMapping("")
+    @GetMapping(value="/login",produces = {MediaType.APPLICATION_JSON_VALUE})
     @ResponseBody
-    public Callable callable(){
-        return new Callable() {
-            @Override
-            public Object call() throws Exception {
-                Thread.sleep(5000);
-                return "5 seconds later";
-            }
-        };
+    public String appLogin(){
+        return "请登录";
     }
 
+    @GetMapping(value="/login",produces = {MediaType.TEXT_HTML_VALUE})
+    public String webLogin(){
+        return "login";
+    }
+
+    /** logout section **/
+
+    @GetMapping(value="/logout",produces = {MediaType.APPLICATION_JSON_VALUE})
+    @ResponseBody
+    public String appLogout() {
+        OSSContext.logout();
+        return "成功登出";
+    }
+
+    @GetMapping(value="/logout",produces = {MediaType.TEXT_HTML_VALUE})
+    public String webLogout() {
+        OSSContext.logout();
+        return "redirect:/login";
+    }
 }

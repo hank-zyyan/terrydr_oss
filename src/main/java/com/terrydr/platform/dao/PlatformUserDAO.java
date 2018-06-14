@@ -7,4 +7,8 @@ import org.springframework.stereotype.Repository;
 @Repository
 public interface PlatformUserDAO extends EntityDAO<PlatformUser> {
 
+    PlatformUser selectByUsername(String username);
+
+
+    PlatformUser selectLoginUserByUsername(String username);
 }

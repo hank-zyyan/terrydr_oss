@@ -25,11 +25,30 @@ public class Constant {
 
     //部门根节点id
     public static final Long DEPT_ROOT_ID = 0l;
-    //缓存方式
+
+    //缓存
     public static final String CACHE_TYPE_REDIS ="redis";
 
     public static final String LOG_ERROR = "error";
 
     public static final String ACCESS_TOKEN_KEY = "access_token";
+
+    public static final String VERIFY_CODE_CACHE_NAME = "verifyCode";
+
+    //异常
+    public static final String ERROR_PATH = "/error";
+
+    //Response Code
+    public static final class ResponseCode{
+        public static final int SUCCESS = 0;
+        public static final int FAIL = 1;
+
+        public static final int NOTAUTHENTICATED = 1401;
+        public static final int FUBBIDEN = 1403;
+        public static final int NOTFOUND = 1404;
+        public static final int INNER_ERROR = 1500;
+
+    }
+
 
 }

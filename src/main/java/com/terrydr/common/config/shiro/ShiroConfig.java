@@ -1,18 +1,20 @@
 package com.terrydr.common.config.shiro;
 
-import com.terrydr.common.shiro.OSSRealm;
+import com.terrydr.common.shiro.OSSVerifyCodeRealm;
 import com.terrydr.common.shiro.OSSSessionManager;
 import com.terrydr.common.utils.Constant;
-import org.apache.shiro.cache.CacheManager;
 import org.apache.shiro.cache.ehcache.EhCacheManager;
 import org.apache.shiro.mgt.SecurityManager;
 import org.apache.shiro.realm.Realm;
 import org.apache.shiro.session.mgt.SessionManager;
 import org.apache.shiro.spring.security.interceptor.AuthorizationAttributeSourceAdvisor;
+import org.apache.shiro.spring.web.ShiroFilterFactoryBean;
 import org.apache.shiro.web.mgt.DefaultWebSecurityManager;
 import org.springframework.beans.factory.annotation.Value;
 import org.springframework.context.annotation.Bean;
 import org.springframework.context.annotation.Configuration;
+
+import java.util.LinkedHashMap;
 
 /**
  * Copyright (C), 2018-2020, NanJing Terrydr. Co., Ltd.
@@ -28,6 +30,30 @@ public class ShiroConfig {
 
     @Value("${cacheType}")
     private String cacheType;
+
+    @Bean
+    ShiroFilterFactoryBean shiroFilterFactoryBean(SecurityManager securityManager) {
+        ShiroFilterFactoryBean shiroFilterFactoryBean = new ShiroFilterFactoryBean();
+        shiroFilterFactoryBean.setSecurityManager(securityManager);
+        shiroFilterFactoryBean.setLoginUrl("/login");
+        shiroFilterFactoryBean.setSuccessUrl("/index");
+        shiroFilterFactoryBean.setUnauthorizedUrl("/403");
+        LinkedHashMap<String, String> filterChainDefinitionMap = new LinkedHashMap<>();
+        filterChainDefinitionMap.put("/css/**", "anon");
+        filterChainDefinitionMap.put("/js/**", "anon");
+        filterChainDefinitionMap.put("/fonts/**", "anon");
+        filterChainDefinitionMap.put("/img/**", "anon");
+        filterChainDefinitionMap.put("/docs/**", "anon");
+        filterChainDefinitionMap.put("/druid/**", "anon");
+        filterChainDefinitionMap.put("/upload/**", "anon");
+        filterChainDefinitionMap.put("/files/**", "anon");
+        filterChainDefinitionMap.put("/verifyCode/get", "anon");
+        filterChainDefinitionMap.put("/", "anon");
+        filterChainDefinitionMap.put("/logout", "logout");
+        filterChainDefinitionMap.put("/**", "authc");
+        shiroFilterFactoryBean.setFilterChainDefinitionMap(filterChainDefinitionMap);
+        return shiroFilterFactoryBean;
+    }
 
     /**
     * @Description: shiro security manager bean
@@ -61,7 +87,7 @@ public class ShiroConfig {
 
     @Bean
     public Realm ossRealm(){
-        Realm realm = new OSSRealm();
+        Realm realm = new OSSVerifyCodeRealm();
         return realm;
     }
 

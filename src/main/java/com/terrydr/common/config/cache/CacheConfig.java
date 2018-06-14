@@ -1,5 +1,6 @@
 package com.terrydr.common.config.cache;
 
+import org.springframework.cache.CacheManager;
 import org.springframework.cache.annotation.EnableCaching;
 import org.springframework.cache.ehcache.EhCacheCacheManager;
 import org.springframework.cache.ehcache.EhCacheManagerFactoryBean;
@@ -21,7 +22,7 @@ import org.springframework.core.io.ClassPathResource;
 public class CacheConfig {
 
     @Bean
-    public EhCacheCacheManager ehCacheCacheManager(){
+    public CacheManager ehCacheCacheManager(){
         EhCacheCacheManager ehCacheCacheManager = new EhCacheCacheManager();
         ehCacheCacheManager.setCacheManager(ehCacheManagerFactoryBean().getObject());
         ehCacheCacheManager.setTransactionAware(true);

@@ -4,6 +4,8 @@ spring:
   http:
     encoding:
       charset: utf-8
+  thymeleaf:
+    mode: LEGACYHTML5 #非严格的html5
 
 #服务器级设置
 server:
