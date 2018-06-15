@@ -1,6 +1,6 @@
 package com.terrydr.common.aspect;
 
-import com.terrydr.common.utils.HttpUtil;
+import com.terrydr.common.utils.HttpUtils;
 import org.aspectj.lang.JoinPoint;
 import org.aspectj.lang.ProceedingJoinPoint;
 import org.aspectj.lang.annotation.*;
@@ -45,7 +45,7 @@ public class BackLogAspect {
             logger.info("SessionId : " + request.getSession().getId());
             logger.info("HTTP METHOD : " + request.getMethod());
             // 获取真实的ip地址
-            logger.info("IP : " + HttpUtil.getIpAddr(request));
+            logger.info("IP : " + HttpUtils.getIpAddr(request));
             logger.info("CLASS_METHOD : " + joinPoint.getSignature().getDeclaringTypeName() + "."
                     + joinPoint.getSignature().getName());
             logger.debug("参数 : " + Arrays.toString(joinPoint.getArgs()));

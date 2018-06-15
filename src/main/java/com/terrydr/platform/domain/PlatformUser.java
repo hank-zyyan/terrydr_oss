@@ -4,6 +4,17 @@ import java.util.Date;
 
 public class PlatformUser {
 
+    @Override
+    public String toString() {
+        return "PlatformUser{" +
+                "id=" + id +
+                ", userName='" + userName + '\'' +
+                ", userTel='" + userTel + '\'' +
+                ", userRealName='" + userRealName + '\'' +
+                ", status='" + status + '\'' +
+                '}';
+    }
+
     private Integer roleId;
 
     public Integer getRoleId() {

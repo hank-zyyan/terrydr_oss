@@ -39,6 +39,7 @@
     FROM t_sys_menu tsm
     LEFT JOIN t_sys_role_menu tsrm ON tsm.ID = tsrm.MENU_ID
     WHERE tsm.`STATUS` = 1 AND tsrm.ROLE_ID = #{roleId,jdbcType=INTEGER}
+    ORDER BY tsm.SORT ASC
   </select>
 
   <select id="selectMenusByParams" resultMap="BaseResultMap">

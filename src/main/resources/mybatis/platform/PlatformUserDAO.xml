@@ -28,6 +28,99 @@
     CREATE_TIME, STATUS
   </sql>
 
+  <update id="updateUserStatus" parameterType="java.lang.Integer">
+    UPDATE t_sys_user
+    SET STATUS = #{status,jdbcType=INTEGER}
+    WHERE ID = #{id,jdbcType=INTEGER}
+  </update>
+
+  <update id="updateUsersStatus">
+    UPDATE t_sys_user
+    SET STATUS = #{status,jdbcType=INTEGER}
+    WHERE ID in
+    <foreach item="id" collection="ids" open="(" separator="," close=")">
+      #{id}
+    </foreach>
+  </update>
+
+  <select id="selectCountByParams" resultType="java.lang.Long">
+    SELECT
+    COUNT(1)
+    FROM t_sys_user
+    <where>
+      <if test="id != null and id != ''"> and ID = #{id} </if>
+      <if test="userName != null and userName != ''"> and USER_NAME = #{userName} </if>
+      <if test="userPwd != null and userPwd != ''"> and USER_PWD = #{userPwd} </if>
+      <if test="userTel != null and userTel != ''"> and USER_TEL = #{userTel} </if>
+      <if test="userEmail != null and userEmail != ''"> and USER_EMAIL = #{userEmail} </if>
+      <if test="userRealName != null and userRealName != ''"> and USER_REAL_NAME = #{userRealName} </if>
+      <if test="remark != null and remark != ''"> and REMARK = #{remark} </if>
+      <if test="createUser != null and createUser != ''"> and CREATE_USER = #{createUser} </if>
+      <if test="createTime != null and createTime != ''"> and CREATE_TIME = #{createTime} </if>
+      <if test="status != null and status != ''"> and STATUS = #{status} </if>
+    </where>
+  </select>
+
+  <select id="selectUsersByParams" resultMap="BaseResultMap">
+    SELECT
+    <trim prefix=" " suffix=" " suffixOverrides=",">
+      <if test="idColumn == null">
+        ID,
+      </if>
+      <if test="userNameColumn == null">
+        USER_NAME,
+      </if>
+      <if test="userPwdColumn == null">
+        USER_PWD,
+      </if>
+      <if test="userTelColumn == null">
+        USER_TEL,
+      </if>
+      <if test="userEmailColumn == null">
+        USER_EMAIL,
+      </if>
+      <if test="userRealNameColumn == null">
+        USER_REAL_NAME,
+      </if>
+      <if test="remarkColumn == null">
+        REMARK,
+      </if>
+      <if test="createUserColumn == null">
+        CREATE_USER,
+      </if>
+      <if test="createTimeColumn == null">
+        CREATE_TIME,
+      </if>
+      <if test="statusColumn == null">
+        STATUS,
+      </if>
+    </trim>
+    FROM t_sys_user
+    <where>
+      <if test="id != null and id != ''"> and ID = #{id} </if>
+      <if test="userName != null and userName != ''"> and USER_NAME = #{userName} </if>
+      <if test="userPwd != null and userPwd != ''"> and USER_PWD = #{userPwd} </if>
+      <if test="userTel != null and userTel != ''"> and USER_TEL = #{userTel} </if>
+      <if test="userEmail != null and userEmail != ''"> and USER_EMAIL = #{userEmail} </if>
+      <if test="userRealName != null and userRealName != ''"> and USER_REAL_NAME = #{userRealName} </if>
+      <if test="remark != null and remark != ''"> and REMARK = #{remark} </if>
+      <if test="createUser != null and createUser != ''"> and CREATE_USER = #{createUser} </if>
+      <if test="createTime != null and createTime != ''"> and CREATE_TIME = #{createTime} </if>
+      <if test="status != null and status != ''"> and STATUS = #{status} </if>
+    </where>
+    <choose>
+      <when test="sortColumn != null and sortColumn.trim() != ''">
+        order by ${order} ${orderDirection}
+      </when>
+      <otherwise>
+        order by ID asc
+      </otherwise>
+    </choose>
+    <if test="offset != null and limit != null">
+      limit #{offset}, #{limit}
+    </if>
+  </select>
+
   <select id="selectByUsername" parameterType="java.lang.String" resultMap="BaseResultMap">
     select
     <include refid="Base_Column_List" />

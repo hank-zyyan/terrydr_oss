@@ -14,7 +14,7 @@ import java.net.InetAddress;
  * @Date: 6/14/2018 2:56 PM
  * @version: 1.00
  */
-public class HttpUtil {
+public class HttpUtils {
 
     /**
      * 根据头信息，判断是否为ajax请求

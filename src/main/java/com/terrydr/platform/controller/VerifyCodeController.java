@@ -1,7 +1,7 @@
 package com.terrydr.platform.controller;
 
 import com.terrydr.common.utils.OSSContext;
-import com.terrydr.common.utils.ImageUtil;
+import com.terrydr.common.utils.ImageUtils;
 import org.apache.commons.logging.Log;
 import org.apache.commons.logging.LogFactory;
 import org.springframework.stereotype.Controller;
@@ -54,8 +54,8 @@ public class VerifyCodeController {
         catch (IOException ioe) {
             logger.error(ioe.getMessage());
         }
-        String sRand = ImageUtil.getRandomString(6);
-        BufferedImage image = ImageUtil.createVerifyCodePicture(width, height, sRand);
+        String sRand = ImageUtils.getRandomString(6);
+        BufferedImage image = ImageUtils.createVerifyCodePicture(width, height, sRand);
 
 
         //将验证码塞入缓存

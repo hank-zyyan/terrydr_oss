@@ -2,6 +2,9 @@ package com.terrydr.platform.service;
 
 import com.terrydr.platform.domain.PlatformUser;
 
+import java.util.List;
+import java.util.Map;
+
 /**
  * Copyright (C), 2018-2020, NanJing Terrydr. Co., Ltd.
  *
@@ -13,23 +16,23 @@ import com.terrydr.platform.domain.PlatformUser;
  */
 public interface PlatformUserService {
 
-    /**
-    * @Description: 根据用户名，查询用户
-    * @param username
-    * @return PlatformUser
-    * @throws
-    * @author YanZhengYaun
-    * @date 6/12/2018 8:39 PM
-    */
     PlatformUser getPlatformUserByUsername(String username);
 
-    /**
-     * @Description: 根据用户名，查询用户(登陆用)
-     * @param username
-     * @return PlatformUser
-     * @throws
-     * @author YanZhengYaun
-     * @date 6/12/2018 8:39 PM
-     */
     PlatformUser getLoginUserByUsername(String username);
+
+    List<PlatformUser> getAllUsers();
+
+    List<PlatformUser> getUsersByParams(Map<String, Object> params);
+
+    long countAll();
+
+    long countByParams(Map<String, Object> params);
+
+    int forbidUser(Integer id);
+
+    int forbidUsers(Integer... ids);
+
+    int startUser(Integer id);
+
+    int startUsers(Integer... ids);
 }

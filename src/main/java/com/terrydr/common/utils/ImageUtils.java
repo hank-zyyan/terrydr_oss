@@ -17,9 +17,9 @@ import java.util.Random;
  * @Date: 6/12/2018 2:51 PM
  * @version: 1.00
  */
-public class ImageUtil {
+public class ImageUtils {
 
-    private static final Log logger = LogFactory.getLog(ImageUtil.class);
+    private static final Log logger = LogFactory.getLog(ImageUtils.class);
 
     /**
     * @Description: 绘制验证码
