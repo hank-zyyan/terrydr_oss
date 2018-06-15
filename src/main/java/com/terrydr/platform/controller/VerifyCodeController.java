@@ -32,7 +32,7 @@ public class VerifyCodeController {
     private static final Log logger = LogFactory.getLog(VerifyCodeController.class);
 
     /**
-    * @Description: 获取验证码
+    * @Description: 获取验证码，写入response
     * @param request,response
     * @throws
     * @author YanZhengYaun

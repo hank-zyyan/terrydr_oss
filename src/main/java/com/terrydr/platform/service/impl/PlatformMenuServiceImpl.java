@@ -1,5 +1,9 @@
 package com.terrydr.platform.service.impl;
 
+import com.terrydr.common.exception.service.ErrorParameterException;
+import com.terrydr.common.exception.service.NullParameterException;
+import com.terrydr.common.exception.service.ObjectNotFoundException;
+import com.terrydr.common.utils.Constant;
 import com.terrydr.common.utils.OSSContext;
 import com.terrydr.platform.dao.PlatformMenuDAO;
 import com.terrydr.platform.domain.MenuTree;
@@ -7,8 +11,11 @@ import com.terrydr.platform.domain.PlatformMenu;
 import com.terrydr.platform.service.PlatformMenuService;
 import org.apache.shiro.authz.UnauthenticatedException;
 import org.springframework.cache.annotation.CacheConfig;
+import org.springframework.cache.annotation.CacheEvict;
 import org.springframework.cache.annotation.Cacheable;
 import org.springframework.stereotype.Service;
+import org.springframework.transaction.annotation.Transactional;
+import org.springframework.util.StringUtils;
 
 import javax.annotation.Resource;
 import java.util.*;
@@ -29,6 +36,13 @@ public class PlatformMenuServiceImpl implements PlatformMenuService{
     @Resource
     private PlatformMenuDAO platformMenuDAO;
 
+    /**
+    * @Description: 获取当前用户能够访问的菜单
+    * @return List<MenuTree>
+    * @throws
+    * @author YanZhengYaun
+    * @date 6/15/2018 10:52 AM
+    */
     @Override
     @Cacheable(keyGenerator="platformMenuKeyGen")
     public List<MenuTree> getUserMenu() {
@@ -57,5 +71,156 @@ public class PlatformMenuServiceImpl implements PlatformMenuService{
         List<MenuTree> menusTree;
         menusTree = MenuTree.buildTreesFromDB(0, menusMap);
         return menusTree;
+    }
+
+    /**
+    * @Description: 获取所有菜单，用于菜单管理
+    * @return List<PlatformMenu>
+    * @throws
+    * @author YanZhengYaun
+    * @date 6/15/2018 10:51 AM
+    */
+    @Override
+    public List<PlatformMenu> getAllMenus() {
+        return platformMenuDAO.selectMenusByParams(null);
+    }
+
+    /**
+    * @Description: 通过菜单ID，获取菜单名(缓存)
+    * @param id
+    * @return String
+    * @throws
+    * @author YanZhengYaun
+    * @date 6/15/2018 10:51 AM
+    */
+    @Override
+    @Cacheable(key = "#id", condition = "#id != null ")
+    public String getMenuNameById(Integer id) {
+        if(id == null){
+            throw new NullParameterException("id");
+        }
+        return platformMenuDAO.selectMenuNameByMenuId(id);
+    }
+
+    /**
+    * @Description: 添加菜单
+    * @param menu
+    * @return int
+    * @throws
+    * @author YanZhengYaun
+    * @date 6/15/2018 10:50 AM
+    */
+    @Override
+    @Transactional
+    @CacheEvict
+    public int saveMenu(PlatformMenu menu) {
+        if(StringUtils.isEmpty(menu.getMenuName())){
+            throw new NullParameterException("menu");
+        }
+        if(menu.getParentMenuId() == null){
+            throw new NullParameterException("menu");
+        }
+        if(menu.getSort() == null){
+            throw new NullParameterException("menu");
+        }
+        if(menu.getSort() > 99){
+            throw new ErrorParameterException("menu");
+        }
+        if(StringUtils.isEmpty(menu.getStatus())){
+            menu.setStatus("1");
+        }
+        if(menu.getParentMenuId() == Constant.Menu.ROOT_PARENT_ID){
+            menu.setMenuLevel(Constant.Menu.FIRST);
+        }else{
+            menu.setMenuLevel(platformMenuDAO.selectMenuLevelByMenuId(menu.getParentMenuId()));
+        }
+        return platformMenuDAO.insertSelective(menu);
+    }
+
+    /**
+    * @Description: 禁用菜单
+    * @param id
+    * @return int
+    * @throws
+    * @author YanZhengYaun
+    * @date 6/15/2018 10:50 AM
+    */
+    @Override
+    @Transactional
+    @CacheEvict
+    public int forbidMenu(Integer id) {
+        if(id == null){
+            throw new NullParameterException("id");
+        }
+        return platformMenuDAO.updateMenuStatus(id, 0);
+    }
+
+    /**
+     * @Description: 启用菜单
+     * @param id
+     * @return int
+     * @throws
+     * @author YanZhengYaun
+     * @date 6/15/2018 10:50 AM
+     */
+    @Override
+    @Transactional
+    @CacheEvict
+    public int startMenu(Integer id) {
+        if(id == null){
+            throw new NullParameterException("id");
+        }
+        return platformMenuDAO.updateMenuStatus(id, 1);
+    }
+
+    /**
+    * @Description: 根据主键获取菜单
+    * @param id
+    * @return PlatformMenu
+    * @throws
+    * @author YanZhengYaun
+    * @date 6/15/2018 11:29 AM
+    */
+    @Override
+    public PlatformMenu getMenuById(Integer id) {
+        if(id == null){
+            throw new NullParameterException("id");
+        }
+        PlatformMenu menu = platformMenuDAO.selectByPrimaryKey(id);
+
+        if(menu == null){
+            throw new ObjectNotFoundException("menu");
+        }
+
+        return menu;
+    }
+
+    /**
+    * @Description: 更新菜单
+    * @param menu
+    * @return int
+    * @throws
+    * @author YanZhengYaun
+    * @date 6/15/2018 12:21 PM
+    */
+    @Override
+    @CacheEvict
+    public int updateMenu(PlatformMenu menu) {
+        if(menu.getId() == null){
+            throw new NullParameterException("menu");
+        }
+        if(StringUtils.isEmpty(menu.getMenuName())){
+            throw new NullParameterException("menu");
+        }
+        if(menu.getParentMenuId() == null){
+            throw new NullParameterException("menu");
+        }
+        if(menu.getSort() == null){
+            throw new NullParameterException("menu");
+        }
+        if(menu.getSort() > 99){
+            throw new ErrorParameterException("menu");
+        }
+        return platformMenuDAO.updateByPrimaryKeySelective(menu);
     }
 }

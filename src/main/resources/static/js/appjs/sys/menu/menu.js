@@ -1,4 +1,4 @@
-var prefix = "/sys/menu"
+var prefix = "/platform/menu"
 $(document).ready(function () {
     load();
 });
@@ -6,9 +6,9 @@ var load = function () {
     $('#exampleTable')
         .bootstrapTreeTable(
             {
-                id: 'menuId',
-                code: 'menuId',
-                parentCode: 'parentId',
+                id: 'id',
+                code: 'id',
+                parentCode: 'parentMenuId',
                 type: "GET", // 请求数据的ajax类型
                 url: prefix + '/list', // 请求数据的ajax的url
                 ajaxParams: {sort:'order_num'}, // 请求数据的ajax的data属性
@@ -20,7 +20,7 @@ var load = function () {
                 columns: [
                     {
                         title: '编号',
-                        field: 'menuId',
+                        field: 'id',
                         visible: false,
                         align: 'center',
                         valign: 'center',
@@ -29,51 +29,37 @@ var load = function () {
                     {
                         title: '名称',
                         valign: 'center',
-                        field: 'name',
-                        width: '20%'
+                        field: 'menuName',
                     },
-
                     {
                         title: '图标',
-                        field: 'icon',
+                        field: 'style',
                         align: 'center',
                         valign: 'center',
                         width : '5%',
                         formatter: function (item, index) {
-                            return item.icon == null ? ''
-                                : '<i class="' + item.icon
+                            return item.style == null ? ''
+                                : '<i class="' + item.style
                                 + ' fa-lg"></i>';
-                        }
-                    },
-                    {
-                        title: '类型',
-                        field: 'type',
-                        align: 'center',
-                        valign: 'center',
-                        width : '10%',
-                        formatter: function (item, index) {
-                            if (item.type === 0) {
-                                return '<span class="label label-primary">目录</span>';
-                            }
-                            if (item.type === 1) {
-                                return '<span class="label label-success">菜单</span>';
-                            }
-                            if (item.type === 2) {
-                                return '<span class="label label-warning">按钮</span>';
-                            }
                         }
                     },
                     {
                         title: '地址',
                         valign: 'center',
-                        width : '20%',
-                        field: 'url'
+                        field: 'menuUrl'
                     },
                     {
-                        title: '权限标识',
-                        valign: 'center',
-                        width : '20%',
-                        field: 'perms'
+                        field : 'status',
+                        title : '状态',
+                        width : '10%',
+                        align : 'center',
+                        formatter : function(item, index) {
+                            if (item.status == 0) {
+                                return '<span class="label label-danger">禁用</span>';
+                            } else if (item.status == 1) {
+                                return '<span class="label label-primary">正常</span>';
+                            }
+                        }
                     },
                     {
                         title: '操作',
@@ -84,19 +70,24 @@ var load = function () {
                             var e = '<a class="btn btn-primary btn-sm '
                                 + s_edit_h
                                 + '" href="#" mce_href="#" title="编辑" onclick="edit(\''
-                                + item.menuId
+                                + item.id
                                 + '\')"><i class="fa fa-edit"></i></a> ';
                             var p = '<a class="btn btn-primary btn-sm '
                                 + s_add_h
                                 + '" href="#" mce_href="#" title="添加下级" onclick="add(\''
-                                + item.menuId
+                                + item.id
                                 + '\')"><i class="fa fa-plus"></i></a> ';
                             var d = '<a class="btn btn-warning btn-sm '
                                 + s_remove_h
-                                + '" href="#" title="删除"  mce_href="#" onclick="remove(\''
-                                + item.menuId
-                                + '\')"><i class="fa fa-remove"></i></a> ';
-                            return e + d + p;
+                                + '" href="#" title="启用"  mce_href="#" onclick="start(\''
+                                + item.id
+                                + '\')"><i class="fa fa-check"></i></a> ';
+                            var t = '<a class="btn btn-warning btn-sm '
+                                + s_remove_h
+                                + '" href="#" title="禁用"  mce_href="#" onclick="remove(\''
+                                + item.id
+                                + '\')"><i class="fa fa-ban"></i></a> ';
+                            return p + e + d + t;
                         }
                     }]
             });
@@ -118,7 +109,7 @@ function add(pId) {
 }
 
 function remove(id) {
-    layer.confirm('确定要删除选中的记录？', {
+    layer.confirm('确定要禁用选中的菜单？', {
         btn: ['确定', '取消']
     }, function () {
         $.ajax({
@@ -129,10 +120,32 @@ function remove(id) {
             },
             success: function (data) {
                 if (data.code == 0) {
-                    layer.msg("删除成功");
+                    layer.msg(data.responseMessage);
                     reLoad();
                 } else {
-                    layer.msg(data.msg);
+                    layer.msg(data.responseMessage);
+                }
+            }
+        });
+    })
+}
+
+function start(id) {
+    layer.confirm('确定要启用选中的菜单？', {
+        btn: ['确定', '取消']
+    }, function () {
+        $.ajax({
+            url: prefix + "/start",
+            type: "post",
+            data: {
+                'id': id
+            },
+            success: function (data) {
+                if (data.code == 0) {
+                    layer.msg(data.responseMessage);
+                    reLoad();
+                } else {
+                    layer.msg(data.responseMessage);
                 }
             }
         });

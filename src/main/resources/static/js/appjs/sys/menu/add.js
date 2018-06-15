@@ -1,4 +1,4 @@
-var prefix = "/sys/menu"
+var prefix = "/platform/menu"
 $(function() {
 	validateRule();
 	//打开图标列表
@@ -27,18 +27,17 @@ function submit01() {
 		url : prefix + "/save",
 		data : $('#signupForm').serialize(),
 		async : false,
-		error : function(request) {
-			laryer.alert("Connection error");
+		error : function(data) {
+            parent.layer.msg(data.responseJSON.responseMessage);
 		},
 		success : function(data) {
 			if (data.code == 0) {
-				parent.layer.msg("保存成功");
+				parent.layer.msg(data.responseMessage);
 				parent.reLoad();
 				var index = parent.layer.getFrameIndex(window.name); // 获取窗口索引
 				parent.layer.close(index);
-
 			} else {
-				layer.alert(data.msg)
+				layer.alert(data.responseMessage)
 			}
 		}
 	});
@@ -48,20 +47,22 @@ function validateRule() {
 	var icon = "<i class='fa fa-times-circle'></i> ";
 	$("#signupForm").validate({
 		rules : {
-			name : {
+            menuName : {
 				required : true
 			},
-			type : {
-				required : true
-			}
+            sort : {
+                required : true,
+                range:[1,99]
+            }
 		},
 		messages : {
-			name : {
+            menuName : {
 				required : icon + "请输入菜单名"
 			},
-			type : {
-				required : icon + "请选择菜单类型"
-			}
+            sort : {
+                required : icon + "请输入排序",
+                range : icon + "排序为2位数字"
+            }
 		}
 	})
 }

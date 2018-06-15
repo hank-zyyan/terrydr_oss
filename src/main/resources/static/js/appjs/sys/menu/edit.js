@@ -1,4 +1,4 @@
-var prefix = "/sys/menu"
+var prefix = "/platform/menu"
 $(function() {
 	validateRule();
 
@@ -30,17 +30,18 @@ function update() {
 		data : $('#signupForm').serialize(),// 你的formid
 		async : false,
 		error : function(request) {
-			laryer.alert("Connection error");
+            console.log(request);
+            parent.layer.msg(request.responseJSON.responseMessage);
 		},
 		success : function(data) {
 			if (data.code == 0) {
-				parent.layer.msg("保存成功");
+				parent.layer.msg(data.responseMessage);
 				parent.reLoad();
 				var index = parent.layer.getFrameIndex(window.name); // 获取窗口索引
 				parent.layer.close(index);
 
 			} else {
-				layer.alert(data.msg)
+                parent.layer.alert(data.responseMessage)
 			}
 
 		}
@@ -54,38 +55,42 @@ function validate() {
 			name : {
 				required : true
 			},
-			type : {
-				required : true
-			}
+            sort : {
+                required : true,
+                range:[1,99]
+            }
 		},
 		messages : {
 			name : {
 				required : icon + "请输入菜单名"
 			},
-			type : {
-				required : icon + "请选择菜单类型"
-			}
+            sort : {
+                required : icon + "请输入排序",
+                range : icon + "排序为2位数字"
+            }
 		}
 	})
 }
 function validateRule() {
 	var icon = "<i class='fa fa-times-circle'></i> ";
-	$("#signupForm").validate({
-		rules : {
-			name : {
-				required : true
-			},
-			type : {
-				required : true
-			}
-		},
-		messages : {
-			name : {
-				required : icon + "请输入菜单名"
-			},
-			type : {
-				required : icon + "请选择菜单类型"
-			}
-		}
-	})
+    $("#signupForm").validate({
+        rules : {
+            name : {
+                required : true
+            },
+            sort : {
+                required : true,
+                range:[1,99]
+            }
+        },
+        messages : {
+            name : {
+                required : icon + "请输入菜单名"
+            },
+            sort : {
+                required : icon + "请输入排序",
+                range : icon + "排序为2位数字"
+            }
+        }
+    })
 }

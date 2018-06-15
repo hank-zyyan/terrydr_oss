@@ -43,12 +43,19 @@ public class Constant {
         public static final int SUCCESS = 0;
         public static final int FAIL = 1;
 
-        public static final int NOTAUTHENTICATED = 1401;
-        public static final int FUBBIDEN = 1403;
-        public static final int NOTFOUND = 1404;
+        public static final int NOT_AUTHENTICATED = 1401;
+        public static final int FOBBIDEN = 1403;
+        public static final int NOT_FOUND = 1404;
         public static final int INNER_ERROR = 1500;
-
     }
 
+    //Menu
+    public static final class Menu{
+        public static final int FIRST = 1;
+        public static final int SECOND = 2;
+        public static final int THIRD = 3;
+
+        public static final int ROOT_PARENT_ID = 0;
+    }
 
 }

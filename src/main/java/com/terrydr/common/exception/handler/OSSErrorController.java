@@ -35,7 +35,7 @@ public class OSSErrorController implements ErrorController{
      * @return
      */
     @RequestMapping(value = Constant.ERROR_PATH, produces = {MediaType.TEXT_HTML_VALUE})
-    @ResponseStatus(code= HttpStatus.OK)
+    @ResponseStatus(HttpStatus.OK)
     public String webError(HttpServletRequest request){
         return handlerError(request).getResponseMessage();
     }
@@ -46,7 +46,7 @@ public class OSSErrorController implements ErrorController{
      * @return
      */
     @RequestMapping(value = Constant.ERROR_PATH, produces = {MediaType.APPLICATION_JSON_VALUE})
-    @ResponseStatus(code= HttpStatus.OK)
+    @ResponseStatus(HttpStatus.OK)
     @ResponseBody
     public Object appError(HttpServletRequest request){
         return handlerError(request).getResponseObject();
@@ -67,13 +67,13 @@ public class OSSErrorController implements ErrorController{
         HttpStatus status = getStatus(request);
         if(status == HttpStatus.UNAUTHORIZED) {
             logger.error("未认证");
-            message = Response.fail("/login", Response.fail("未认证", Constant.ResponseCode.NOTAUTHENTICATED));
+            message = Response.fail("/login", Response.fail("未认证", Constant.ResponseCode.NOT_AUTHENTICATED));
         } else if(status == HttpStatus.FORBIDDEN) {
             logger.error("未授权");
-            message = Response.fail("/error/403", Response.fail("未授权", Constant.ResponseCode.FUBBIDEN));
+            message = Response.fail("/error/403", Response.fail("未授权", Constant.ResponseCode.FOBBIDEN));
         } else if(status == HttpStatus.NOT_FOUND) {
             logger.error("404错误");
-            message = Response.fail("/error/404", Response.fail("找不到页面", Constant.ResponseCode.NOTFOUND));
+            message = Response.fail("/error/404", Response.fail("找不到页面", Constant.ResponseCode.NOT_FOUND));
         } else {
             logger.error("系统错误");
             message = Response.fail("/error/500", Response.fail("服务器错误，请联系管理员", Constant.ResponseCode.INNER_ERROR));

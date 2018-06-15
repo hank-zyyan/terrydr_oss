@@ -7,8 +7,11 @@ import com.terrydr.common.utils.HttpUtil;
 import org.apache.commons.logging.Log;
 import org.apache.commons.logging.LogFactory;
 import org.apache.shiro.authz.AuthorizationException;
+import org.springframework.http.HttpStatus;
+import org.springframework.stereotype.Component;
 import org.springframework.web.bind.annotation.ControllerAdvice;
 import org.springframework.web.bind.annotation.ExceptionHandler;
+import org.springframework.web.bind.annotation.ResponseStatus;
 import org.springframework.web.servlet.ModelAndView;
 
 import javax.servlet.http.HttpServletRequest;
@@ -29,22 +32,24 @@ public class ControllerExceptionHandler {
     private static final Log logger = LogFactory.getLog(ControllerExceptionHandler.class);
 
     @ExceptionHandler(AuthorizationException.class)
+    @ResponseStatus(HttpStatus.OK)
     public Object handleAuthorizationException(AuthorizationException e, HttpServletRequest request) {
         logger.error(e.getMessage(), e);
 
         if (HttpUtil.isAjax(request)) {
-            return Response.fail("未授权", Constant.ResponseCode.FUBBIDEN);
+            return Response.fail("未授权", Constant.ResponseCode.FOBBIDEN);
         }
 
         return new ModelAndView("error/403");
     }
 
     @ExceptionHandler({OSSException.class})
+    @ResponseStatus(HttpStatus.OK)
     public Object handleOSSException(Exception e, HttpServletRequest request) {
         logger.error(e.getMessage(), e);
 
         if (HttpUtil.isAjax(request)) {
-            return Response.fail("用户错误，请联系管理员", Constant.ResponseCode.INNER_ERROR);
+            return Response.fail("平台错误，请联系管理员", Constant.ResponseCode.INNER_ERROR);
         }
 
         return new ModelAndView("error/500");
@@ -52,6 +57,7 @@ public class ControllerExceptionHandler {
 
 
     @ExceptionHandler({Exception.class})
+    @ResponseStatus(HttpStatus.OK)
     public Object handleException(Exception e, HttpServletRequest request) {
         logger.error(e.getMessage(), e);
 

@@ -1,6 +1,7 @@
 package com.terrydr.platform.service;
 
 import com.terrydr.platform.domain.MenuTree;
+import com.terrydr.platform.domain.PlatformMenu;
 
 import java.util.List;
 
@@ -17,4 +18,17 @@ public interface PlatformMenuService {
 
     List<MenuTree> getUserMenu();
 
+    List<PlatformMenu> getAllMenus();
+
+    String getMenuNameById(Integer id);
+
+    int saveMenu(PlatformMenu menu);
+
+    int forbidMenu(Integer id);
+
+    int startMenu(Integer id);
+
+    PlatformMenu getMenuById(Integer id);
+
+    int updateMenu(PlatformMenu menu);
 }

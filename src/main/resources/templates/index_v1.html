@@ -60,14 +60,18 @@
                             <ul class="nav nav-second-level" th:if="${cmenu.hasChild}">
                                 <li th:each="ccmenu : ${cmenu.children}">
                                     <a class="J_menuItem" href="graph_echarts.html" style="padding-left: 40%;"
-                                       th:text="${ccmenu.name}"
-                                       th:href="${ccmenu.url}">系统管理</a>
+                                       th:href="${ccmenu.url}">
+                                        <i class="fa fa fa-bar-chart-o" th:class="${ccmenu.style}"></i>
+                                        <span class="nav-label" th:text="${ccmenu.name}">基础信息</span>
+                                    </a>
                                 </li>
                             </ul>
                             <a class="J_menuItem" href="graph_echarts.html"
-                                                                  th:text="${cmenu.name}"
                                                                   th:href="${cmenu.url}"
-                                                                  th:if="${not cmenu.hasChild}">系统管理</a>
+                                                                  th:if="${not cmenu.hasChild}">
+                                <i class="fa fa fa-bar-chart-o" th:class="${cmenu.style}"></i>
+                                <span class="nav-label" th:text="${cmenu.name}">基础信息</span>
+                            </a>
                         </li>
                     </ul>
                 </li>

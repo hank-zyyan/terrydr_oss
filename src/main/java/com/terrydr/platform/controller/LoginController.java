@@ -34,12 +34,12 @@ public class LoginController {
 
     private static final Log logger = LogFactory.getLog(LoginController.class);
 
-    @RequestMapping("/")
+    @RequestMapping(value = "/", produces = {MediaType.TEXT_HTML_VALUE})
     public String defaultPath(){
         return "redirect:index";
     }
 
-    @RequestMapping("/index")
+    @RequestMapping(value = "/index", produces = {MediaType.TEXT_HTML_VALUE})
     public String welcome(Model model){
         model.addAttribute("menus", OSSContext.getPlatformMenuService().getUserMenu());
         return "index_v1";
@@ -47,7 +47,7 @@ public class LoginController {
 
     /** login section **/
 
-    @PostMapping(value="/login",produces = {MediaType.APPLICATION_JSON_VALUE})
+    @PostMapping(value="/login")
     @ResponseBody
     public Response ajaxLogin(String username, String password, String verifyCode){
         logger.debug(OSSContext.isAuthenticated());
@@ -69,14 +69,8 @@ public class LoginController {
         return Response.success(OSSContext.getAccessToken(), null);
     }
 
-    @GetMapping(value="/login",produces = {MediaType.APPLICATION_JSON_VALUE})
-    @ResponseBody
-    public String appLogin(){
-        return "请登录";
-    }
-
     @GetMapping(value="/login",produces = {MediaType.TEXT_HTML_VALUE})
-    public String webLogin(){
+    public String loginPage(){
         return "login";
     }
 
@@ -84,9 +78,9 @@ public class LoginController {
 
     @GetMapping(value="/logout",produces = {MediaType.APPLICATION_JSON_VALUE})
     @ResponseBody
-    public String appLogout() {
+    public Response appLogout() {
         OSSContext.logout();
-        return "成功登出";
+        return Response.success();
     }
 
     @GetMapping(value="/logout",produces = {MediaType.TEXT_HTML_VALUE})
