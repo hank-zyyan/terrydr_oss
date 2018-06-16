@@ -189,6 +189,14 @@
             <plugin>
                 <groupId>org.springframework.boot</groupId>
                 <artifactId>spring-boot-maven-plugin</artifactId>
+                <dependencies>
+                    <!-- spring热部署插件,每当编译就重载,手动编译（Ctrl+Shift+F9） -->
+                    <dependency>
+                        <groupId>org.springframework</groupId>
+                        <artifactId>springloaded</artifactId>
+                        <version>1.2.6.RELEASE</version>
+                    </dependency>
+                </dependencies>
                 <configuration>
                     <executable>true</executable> <!--开启Linux服务，如命令开启、关闭及开机启动-->
                 </configuration>

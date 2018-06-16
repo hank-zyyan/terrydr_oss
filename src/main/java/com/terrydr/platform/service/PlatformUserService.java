@@ -28,6 +28,8 @@ public interface PlatformUserService {
 
     long countByParams(Map<String, Object> params);
 
+    boolean exist(String userName);
+
     int forbidUser(Integer id);
 
     int forbidUsers(Integer... ids);
@@ -35,4 +37,14 @@ public interface PlatformUserService {
     int startUser(Integer id);
 
     int startUsers(Integer... ids);
+
+    int saveUser(PlatformUser user);
+
+    PlatformUser getUserById(Integer id);
+
+    PlatformUser getUserAndRoleNameById(Integer id);
+
+    int updateUser(PlatformUser user);
+
+    int adminResetPwd(Integer id, String pwd);
 }

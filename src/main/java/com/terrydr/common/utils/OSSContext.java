@@ -4,10 +4,9 @@ import com.terrydr.common.service.CacheService;
 import com.terrydr.platform.domain.PlatformUser;
 import com.terrydr.platform.properties.PlatformDataSourceProperties;
 import com.terrydr.platform.service.PlatformMenuService;
+import com.terrydr.platform.service.PlatformRoleService;
 import com.terrydr.platform.service.PlatformUserService;
 import org.springframework.beans.factory.annotation.Autowired;
-import org.springframework.context.annotation.Primary;
-import org.springframework.core.annotation.Order;
 import org.springframework.stereotype.Component;
 
 /**
@@ -20,7 +19,6 @@ import org.springframework.stereotype.Component;
  * @version: 1.00
  */
 @Component
-@Order(1)
 public class OSSContext {
 
     private static UserContext userContext;
@@ -50,6 +48,14 @@ public class OSSContext {
         return userContext.getCurrentUser();
     }
 
+    public static boolean hasRole(Integer roleId){
+        return userContext.hasRole(roleId);
+    }
+
+    public static boolean hasRole(String roleName){
+        return userContext.hasRole(roleName);
+    }
+
     public static boolean isAuthenticated(){
         return userContext.isAuthenticated();
     }
@@ -74,8 +80,6 @@ public class OSSContext {
         return getCacheService().getValue(getAccessToken(), Constant.VERIFY_CODE_CACHE_NAME, String.class);
     }
 
-
-
     /** service section **/
 
     public static CacheService getCacheService(){
@@ -88,6 +92,10 @@ public class OSSContext {
 
     public static PlatformMenuService getPlatformMenuService(){
         return serviceContext.getService(PlatformMenuService.class);
+    }
+
+    public static PlatformRoleService getPlatformRoleService(){
+        return serviceContext.getService(PlatformRoleService.class);
     }
 
     /** property section **/

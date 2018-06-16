@@ -44,35 +44,7 @@
 
   <select id="selectMenusByParams" resultMap="BaseResultMap">
     SELECT
-    <trim prefix=" " suffix=" " suffixOverrides=",">
-      <if test="idColumn == null">
-        ID,
-      </if>
-      <if test="menuNameColumn == null">
-        MENU_NAME,
-      </if>
-      <if test="menuUrlColumn == null">
-        MENU_URL,
-      </if>
-      <if test="sortColumn == null">
-        SORT,
-      </if>
-      <if test="parentMenuIdColumn == null">
-        PARENT_MENU_ID,
-      </if>
-      <if test="menuLevelColumn == null">
-        MENU_LEVEL,
-      </if>
-      <if test="createTimeColumn == null">
-        CREATE_TIME,
-      </if>
-      <if test="statusColumn == null">
-        STATUS,
-      </if>
-      <if test="styleColumn == null">
-        STYLE,
-      </if>
-    </trim>
+    <include refid="Base_Column_List" />
     FROM t_sys_menu
     <where>
       <if test="id != null and menuId != ''"> and ID = #{id} </if>
@@ -86,7 +58,7 @@
       <if test="style != null and style != ''"> and STYLE = #{style} </if>
     </where>
     <choose>
-      <when test="sortColumn != null and sortColumn.trim() != ''">
+      <when test="order != null and order.trim() != ''">
         order by ${order} ${orderDirection}
       </when>
       <otherwise>

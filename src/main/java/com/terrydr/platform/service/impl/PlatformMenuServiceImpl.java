@@ -221,6 +221,10 @@ public class PlatformMenuServiceImpl implements PlatformMenuService{
         if(menu.getSort() > 99){
             throw new ErrorParameterException("menu");
         }
+        menu.setMenuLevel(null);
+        menu.setStatus(null);
+        menu.setCreateTime(null);
+        menu.setParentMenuId(null);
         return platformMenuDAO.updateByPrimaryKeySelective(menu);
     }
 }

@@ -3,8 +3,8 @@ package com.terrydr.common.utils;
 import com.terrydr.common.exception.service.NullParameterException;
 import com.terrydr.common.exception.service.ServiceNotFoundException;
 import com.terrydr.common.service.CacheService;
-import com.terrydr.platform.domain.PlatformUser;
 import com.terrydr.platform.service.PlatformMenuService;
+import com.terrydr.platform.service.PlatformRoleService;
 import com.terrydr.platform.service.PlatformUserService;
 import org.apache.commons.logging.Log;
 import org.apache.commons.logging.LogFactory;
@@ -28,8 +28,15 @@ public class ServiceContext {
 
     private static final Log logger = LogFactory.getLog(ServiceContext.class);
 
+    //所有的服务
     private Map<Class, Object> serviceMap = new HashMap<>();
 
+    /**
+     * 获取服务
+     * @param T
+     * @param <T>
+     * @return
+     */
     public <T> T getService(Class<? super T> T){
         Object service = serviceMap.get(T);
         if(service != null){
@@ -38,6 +45,11 @@ public class ServiceContext {
         throw new ServiceNotFoundException(T.getName());
     }
 
+    /**
+     * 注入服务
+     * @param T
+     * @param object
+     */
     public void setService(Class T, Object object){
         if(object == null){
             throw new NullParameterException("Object");
@@ -61,5 +73,10 @@ public class ServiceContext {
     @Autowired
     public void setPlatformMenuService(PlatformMenuService platformMenuService) {
         setService(PlatformMenuService.class, platformMenuService);
+    }
+
+    @Autowired
+    public void setPlatformRoleService(PlatformRoleService platformRoleService) {
+        setService(PlatformRoleService.class, platformRoleService);
     }
 }
