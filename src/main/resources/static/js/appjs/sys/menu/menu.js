@@ -84,7 +84,7 @@ var load = function () {
                                 + '\')"><i class="fa fa-check"></i></a> ';
                             var t = '<a class="btn btn-warning btn-sm '
                                 + s_remove_h
-                                + '" href="#" title="禁用"  mce_href="#" onclick="remove(\''
+                                + '" href="#" title="禁用"  mce_href="#" onclick="stop(\''
                                 + item.id
                                 + '\')"><i class="fa fa-ban"></i></a> ';
                             return p + e + d + t;
@@ -108,7 +108,7 @@ function add(pId) {
     });
 }
 
-function remove(id) {
+function stop(id) {
     layer.confirm('确定要禁用选中的菜单？', {
         btn: ['确定', '取消']
     }, function () {

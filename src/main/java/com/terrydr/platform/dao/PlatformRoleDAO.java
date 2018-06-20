@@ -23,5 +23,10 @@ public interface PlatformRoleDAO extends EntityDAO<PlatformRole> {
      */
     List<PlatformRole> selectAllRoleIdAndDesc();
 
+    /**
+     * 根据参数查询数量
+     * @param params
+     * @return
+     */
     long selectCountByParams(Map<String, Object> params);
 }

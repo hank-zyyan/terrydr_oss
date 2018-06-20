@@ -33,10 +33,10 @@ function getAllSelectNodes() {
 	console.log(menuIds); 
 }
 function getMenuTreeData() {
-	var roleId = $('#roleId').val();
+	var roleId = $('#id').val();
 	$.ajax({
 		type : "GET",
-		url : "/sys/menu/tree/" + roleId,
+		url : "/platform/menu/tree/" + roleId,
 		success : function(data) {
 			loadMenuTree(data);
 		}
@@ -48,7 +48,7 @@ function update() {
 	$.ajax({
 		cache : true,
 		type : "POST",
-		url : "/sys/role/update",
+		url : "/platform/role/update",
 		data : role, // 你的formid
 		async : false,
 		error : function(request) {
@@ -56,13 +56,13 @@ function update() {
 		},
 		success : function(r) {
 			if (r.code == 0) {
-				parent.layer.msg(r.msg);
+				parent.layer.msg(r.responseMessage);
 				parent.reLoad();
 				var index = parent.layer.getFrameIndex(window.name); // 获取窗口索引
 				parent.layer.close(index);
 
 			} else {
-				parent.layer.msg(r.msg);
+				parent.layer.msg(r.responseMessage);
 			}
 
 		}

@@ -1,5 +1,6 @@
 package com.terrydr.platform.service;
 
+import com.terrydr.platform.domain.JSTree;
 import com.terrydr.platform.domain.MenuTree;
 import com.terrydr.platform.domain.PlatformMenu;
 
@@ -17,6 +18,10 @@ import java.util.List;
 public interface PlatformMenuService {
 
     List<MenuTree> getUserMenu();
+
+    JSTree getEnableMenusTree();
+
+    JSTree getEnableMenusTreeByRoleId(Integer roleId);
 
     List<PlatformMenu> getAllMenus();
 

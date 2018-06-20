@@ -17,6 +17,18 @@
     -->
     ID, ROLE_ID, MENU_ID
   </sql>
+
+  <delete id="deleteByRoleId" parameterType="java.lang.Integer">
+    DELETE FROM t_sys_role_menu WHERE ROLE_ID = #{roleId,jdbcType=INTEGER}
+  </delete>
+
+  <select id="getMenuIdsByRoleId" parameterType="java.lang.Integer" resultType="java.lang.Integer">
+    select
+    MENU_ID
+    from t_sys_role_menu
+    where ROLE_ID = #{roleId,jdbcType=INTEGER}
+  </select>
+
   <select id="selectByPrimaryKey" parameterType="java.lang.Integer" resultMap="BaseResultMap">
     <!--
       WARNING - @mbg.generated

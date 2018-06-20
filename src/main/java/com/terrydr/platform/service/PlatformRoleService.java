@@ -14,5 +14,14 @@ import java.util.List;
  * @version: 1.00
  */
 public interface PlatformRoleService {
+
     List<PlatformRole> getAllRoleIdAndDesc();
+
+    List<PlatformRole> getAllRoles();
+
+    void saveRoleWithAccessableMenus(PlatformRole roleToSave, int... menuIdsToAccess);
+
+    void updateRoleWithAccessableMenus(PlatformRole roleToUpdate, int... menuIdsToAccess);
+
+    PlatformRole getRoleById(Integer id);
 }

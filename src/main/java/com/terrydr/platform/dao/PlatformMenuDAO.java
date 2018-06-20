@@ -46,4 +46,10 @@ public interface PlatformMenuDAO extends EntityDAO<PlatformMenu> {
      * @return
      */
     int updateMenuStatus(@Param("id") Integer id, @Param("status")Integer status);
+
+    /**
+     * 查询id，name，pid，且status=1
+     * @return
+     */
+    List<PlatformMenu> selectEnableJsTreeMenu();
 }

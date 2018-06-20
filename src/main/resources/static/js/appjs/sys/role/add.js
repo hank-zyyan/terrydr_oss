@@ -24,7 +24,7 @@ function getAllSelectNodes() {
 function getMenuTreeData() {
 	$.ajax({
 		type : "GET",
-		url : "/sys/menu/tree",
+		url : "/platform/menu/tree",
 		success : function(menuTree) {
 			loadMenuTree(menuTree);
 		}
@@ -50,7 +50,7 @@ function save() {
 	$.ajax({
 		cache : true,
 		type : "POST",
-		url : "/sys/role/save",
+		url : "/platform/role/save",
 		data : role, // 你的formid
 
 		async : false,
@@ -66,7 +66,7 @@ function save() {
 				parent.layer.close(index);
 
 			} else {
-				parent.layer.msg(data.msg);
+				parent.layer.msg(data.responseMessage);
 			}
 		}
 	});
@@ -78,12 +78,18 @@ function validateRule() {
 		rules : {
 			roleName : {
 				required : true
-			}
+			},
+            roleDescribe : {
+                required : true
+            }
 		},
 		messages : {
 			roleName : {
-				required : icon + "请输入角色名"
-			}
+				required : icon + "请输入角色英文"
+			},
+            roleDescribe : {
+                required : icon + "请输入角色名"
+            }
 		}
 	});
 }

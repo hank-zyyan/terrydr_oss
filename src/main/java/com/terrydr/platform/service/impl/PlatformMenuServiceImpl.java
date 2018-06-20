@@ -6,6 +6,8 @@ import com.terrydr.common.exception.service.ObjectNotFoundException;
 import com.terrydr.common.utils.Constant;
 import com.terrydr.common.utils.OSSContext;
 import com.terrydr.platform.dao.PlatformMenuDAO;
+import com.terrydr.platform.dao.PlatformRole2MenuDAO;
+import com.terrydr.platform.domain.JSTree;
 import com.terrydr.platform.domain.MenuTree;
 import com.terrydr.platform.domain.PlatformMenu;
 import com.terrydr.platform.service.PlatformMenuService;
@@ -36,6 +38,9 @@ public class PlatformMenuServiceImpl implements PlatformMenuService{
     @Resource
     private PlatformMenuDAO platformMenuDAO;
 
+    @Resource
+    private PlatformRole2MenuDAO platformRole2MenuDAO;
+
     /**
     * @Description: 获取当前用户能够访问的菜单
     * @return List<MenuTree>
@@ -60,10 +65,10 @@ public class PlatformMenuServiceImpl implements PlatformMenuService{
             Integer pId = menu.getParentMenuId();
             if(menusMap.get(pId) == null){
                 List<MenuTree> menuList = new ArrayList<>();
-                menuList.add(new MenuTree((menu)));
+                menuList.add(new MenuTree(menu));
                 menusMap.put(pId, menuList);
             }else{
-                menusMap.get(pId).add(new MenuTree((menu)));
+                menusMap.get(pId).add(new MenuTree(menu));
             }
         }
 
@@ -71,6 +76,81 @@ public class PlatformMenuServiceImpl implements PlatformMenuService{
         List<MenuTree> menusTree;
         menusTree = MenuTree.buildTreesFromDB(0, menusMap);
         return menusTree;
+    }
+
+    @Override
+    public JSTree getEnableMenusTree() {
+        //1.获取可用的菜单列表
+        List<PlatformMenu> menus = platformMenuDAO.selectEnableJsTreeMenu();
+
+        //2.将菜单以parentId归类
+        Map<Integer, List<JSTree>> menusMap = new HashMap<>();
+        for (PlatformMenu menu : menus){
+            Integer pId = menu.getParentMenuId();
+            if(menusMap.get(pId) == null){
+                List<JSTree> menuList = new ArrayList<>();
+                menuList.add(new JSTree(menu));
+                menusMap.put(pId, menuList);
+            }else{
+                menusMap.get(pId).add(new JSTree(menu));
+            }
+        }
+
+        //3.创造一个root
+        JSTree root = new JSTree();
+        root.setId(-1);
+        root.setParentId(0);
+        root.setChildren(new ArrayList<JSTree>());
+        root.setText("顶级节点");
+        Map<String, Object> state = new HashMap<>(16);
+        state.put("opened", true);
+        root.setState(state);
+
+        //4.生成一个tree
+        MenuTree.buildTreeFromDB(0, menusMap, root);
+        return root;
+    }
+
+    @Override
+    public JSTree getEnableMenusTreeByRoleId(Integer roleId) {
+        //1.获取可用的菜单列表
+        List<PlatformMenu> menus = platformMenuDAO.selectEnableJsTreeMenu();
+
+        //2.获取roleId已关联的菜单id
+        List<Integer> menuIds = platformRole2MenuDAO.getMenuIdsByRoleId(roleId);
+
+        //2.将菜单以parentId归类
+        Map<Integer, List<JSTree>> menusMap = new HashMap<>();
+        for (PlatformMenu menu : menus){
+            Integer pId = menu.getParentMenuId();
+            JSTree jsTree = new JSTree(menu);
+            if(menuIds.contains(menu.getId())){  //已关联
+                Map<String, Object> state = new HashMap<>(16);
+                state.put("selected", true);
+                jsTree.setState(state);
+            }
+            if(menusMap.get(pId) == null){
+                List<JSTree> menuList = new ArrayList<>();
+                menuList.add(jsTree);
+                menusMap.put(pId, menuList);
+            }else{
+                menusMap.get(pId).add(jsTree);
+            }
+        }
+
+        //3.创造一个root
+        JSTree root = new JSTree();
+        root.setId(-1);
+        root.setParentId(0);
+        root.setChildren(new ArrayList<JSTree>());
+        root.setText("顶级节点");
+        Map<String, Object> state = new HashMap<>(16);
+        state.put("opened", true);
+        root.setState(state);
+
+        //4.生成一个tree
+        MenuTree.buildTreeFromDB(0, menusMap, root);
+        return root;
     }
 
     /**
@@ -112,7 +192,7 @@ public class PlatformMenuServiceImpl implements PlatformMenuService{
     */
     @Override
     @Transactional
-    @CacheEvict
+    @CacheEvict(allEntries=true)
     public int saveMenu(PlatformMenu menu) {
         if(StringUtils.isEmpty(menu.getMenuName())){
             throw new NullParameterException("menu");
@@ -147,7 +227,7 @@ public class PlatformMenuServiceImpl implements PlatformMenuService{
     */
     @Override
     @Transactional
-    @CacheEvict
+    @CacheEvict(allEntries=true)
     public int forbidMenu(Integer id) {
         if(id == null){
             throw new NullParameterException("id");
@@ -165,7 +245,7 @@ public class PlatformMenuServiceImpl implements PlatformMenuService{
      */
     @Override
     @Transactional
-    @CacheEvict
+    @CacheEvict(allEntries=true)
     public int startMenu(Integer id) {
         if(id == null){
             throw new NullParameterException("id");
@@ -204,7 +284,7 @@ public class PlatformMenuServiceImpl implements PlatformMenuService{
     * @date 6/15/2018 12:21 PM
     */
     @Override
-    @CacheEvict
+    @CacheEvict(allEntries=true)
     public int updateMenu(PlatformMenu menu) {
         if(menu.getId() == null){
             throw new NullParameterException("menu");

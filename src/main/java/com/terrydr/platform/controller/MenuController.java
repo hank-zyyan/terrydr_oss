@@ -2,6 +2,7 @@ package com.terrydr.platform.controller;
 
 import com.terrydr.common.domain.Response;
 import com.terrydr.common.utils.OSSContext;
+import com.terrydr.platform.domain.JSTree;
 import com.terrydr.platform.domain.PlatformMenu;
 import org.apache.commons.logging.Log;
 import org.apache.commons.logging.LogFactory;
@@ -164,4 +165,26 @@ public class MenuController {
         }
     }
 
+    /**
+     * 获得菜单树
+     * @return
+     */
+    @GetMapping("/tree")
+    @ResponseBody
+    public JSTree tree() {
+        JSTree tree = OSSContext.getPlatformMenuService().getEnableMenusTree();
+        return tree;
+    }
+
+    /**
+     * 获得菜单树，并标记已关联的菜单
+     * @param roleId
+     * @return
+     */
+    @GetMapping("/tree/{roleId}")
+    @ResponseBody
+    public JSTree tree(@PathVariable("roleId") Integer roleId) {
+        JSTree tree = OSSContext.getPlatformMenuService().getEnableMenusTreeByRoleId(roleId);
+        return tree;
+    }
 }

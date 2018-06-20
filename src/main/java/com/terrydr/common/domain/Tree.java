@@ -98,28 +98,28 @@ public abstract class Tree<T extends Tree> {
     }
 
     /**
-     * 根据数据库数据，生成root节点的树，并放入数组
+     * 根据数据库数据，生成root节点的树(只负责children字段的注入)，并放入数组
      * @param rootPid
      * @param treeMap
-     * @param <T>
+     * @param <E>
      * @return
      */
-    public static <T extends Tree> List<T> buildTreesFromDB(Integer rootPid, Map<Integer, List<T>> treeMap) {
-        List<T> list = new ArrayList<>();
+    public static <E extends Tree> List<E> buildTreesFromDB(Integer rootPid, Map<Integer, List<E>> treeMap) {
+        List<E> list = new ArrayList<>();
         if(rootPid != null && treeMap != null){
-            List<T> roots = treeMap.get(rootPid);
-            for(T root : roots){
-                Stack<T> stack = new Stack<>();
+            List<E> roots = treeMap.get(rootPid);
+            for(E root : roots){
+                Stack<E> stack = new Stack<>();
                 list.add(root); //将树根放入结果集
                 stack.push(root);
                 while (!stack.isEmpty()){
-                    T tree = stack.pop();
-                    List<T> cList;
+                    E tree = stack.pop();
+                    List<E> cList;
                     if((cList = treeMap.get(tree.getId())) != null){
-                        for(T child : cList){
+                        for(E child : cList){
                             if(child != null){
                                 if(tree.getChildren() == null){
-                                    tree.setChildren(new ArrayList<T>());
+                                    tree.setChildren(new ArrayList<E>());
                                 }
                                 tree.getChildren().add(child);
                                 stack.push(child);
@@ -131,5 +131,42 @@ public abstract class Tree<T extends Tree> {
         }
         logger.debug(list);
         return list;
+    }
+
+    /**
+     * 根据数据库数据，生成root节点的树(只负责children字段的注入)
+     * @param rootPid
+     * @param treeMap
+     * @param <E>
+     * @return
+     */
+    public static <E extends Tree> void buildTreeFromDB(Integer rootPid, Map<Integer, List<E>> treeMap, E rootTree) {
+        if(rootPid != null && treeMap != null){
+            List<E> roots = treeMap.get(rootPid);
+            for(E root : roots){
+                Stack<E> stack = new Stack<>();
+                if(rootTree.getChildren() == null){
+                    rootTree.setChildren(new ArrayList<E>());
+                }
+                rootTree.getChildren().add(root);//将树放入根
+                stack.push(root);
+                while (!stack.isEmpty()){
+                    E tree = stack.pop();
+                    List<E> cList;
+                    if((cList = treeMap.get(tree.getId())) != null){
+                        for(E child : cList){
+                            if(child != null){
+                                if(tree.getChildren() == null){
+                                    tree.setChildren(new ArrayList<E>());
+                                }
+                                tree.getChildren().add(child);
+                                stack.push(child);
+                            }
+                        }
+                    }
+                }
+            }
+        }
+        logger.debug(rootTree);
     }
 }

@@ -34,6 +34,12 @@
     WHERE ID = #{id,jdbcType=INTEGER}
   </select>
 
+  <select id="selectEnableJsTreeMenu"  resultMap="BaseResultMap">
+    SELECT ID, MENU_NAME, PARENT_MENU_ID
+    FROM t_sys_menu
+    WHERE STATUS = 1
+  </select>
+
   <select id="selectLoginMenuByRoleId" parameterType="java.lang.Integer" resultMap="BaseResultMap">
     SELECT tsm.ID, tsm.MENU_NAME, tsm.MENU_URL, tsm.PARENT_MENU_ID, tsm.MENU_LEVEL, tsm.SORT, tsm.STYLE
     FROM t_sys_menu tsm
