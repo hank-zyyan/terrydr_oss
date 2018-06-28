@@ -3,6 +3,7 @@ package com.terrydr.platform.controller;
 import com.terrydr.common.utils.OSSContext;
 import com.terrydr.common.utils.PageUtils;
 import com.terrydr.common.utils.QueryUtils;
+import com.terrydr.platform.domain.PlatformLog;
 import com.terrydr.platform.domain.PlatformUser;
 import org.apache.commons.logging.Log;
 import org.apache.commons.logging.LogFactory;
@@ -53,9 +54,9 @@ public class LogController {
     public PageUtils list(@RequestParam Map<String, Object> params){
         // 查询列表数据
         QueryUtils query = new QueryUtils(params);
-        List<PlatformUser> usersList = OSSContext.getPlatformUserService().getUsersByParams(query);
-        long total = OSSContext.getPlatformUserService().countByParams(query);
-        PageUtils pageUtil = new PageUtils(usersList, total);
+        List<PlatformLog> logsList = OSSContext.getPlatformLogService().getLogsByParams(query);
+        long total = OSSContext.getPlatformLogService().countByParams(query);
+        PageUtils pageUtil = new PageUtils(logsList, total);
         return pageUtil;
     }
 

@@ -3,6 +3,7 @@ package com.terrydr.common.utils;
 import com.terrydr.common.exception.service.NullParameterException;
 import com.terrydr.common.exception.service.ServiceNotFoundException;
 import com.terrydr.common.service.CacheService;
+import com.terrydr.platform.service.PlatformLogService;
 import com.terrydr.platform.service.PlatformMenuService;
 import com.terrydr.platform.service.PlatformRoleService;
 import com.terrydr.platform.service.PlatformUserService;
@@ -78,5 +79,10 @@ public class ServiceContext {
     @Autowired
     public void setPlatformRoleService(PlatformRoleService platformRoleService) {
         setService(PlatformRoleService.class, platformRoleService);
+    }
+
+    @Autowired
+    public void setPlatformLogService(PlatformLogService platformLogService) {
+        setService(PlatformLogService.class, platformLogService);
     }
 }

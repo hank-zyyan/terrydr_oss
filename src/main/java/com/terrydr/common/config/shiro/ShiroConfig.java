@@ -7,9 +7,12 @@ import org.apache.shiro.cache.ehcache.EhCacheManager;
 import org.apache.shiro.mgt.SecurityManager;
 import org.apache.shiro.realm.Realm;
 import org.apache.shiro.session.mgt.SessionManager;
+import org.apache.shiro.session.mgt.eis.MemorySessionDAO;
+import org.apache.shiro.session.mgt.eis.SessionDAO;
 import org.apache.shiro.spring.security.interceptor.AuthorizationAttributeSourceAdvisor;
 import org.apache.shiro.spring.web.ShiroFilterFactoryBean;
 import org.apache.shiro.web.mgt.DefaultWebSecurityManager;
+import org.apache.shiro.web.servlet.SimpleCookie;
 import org.springframework.beans.factory.annotation.Value;
 import org.springframework.context.annotation.Bean;
 import org.springframework.context.annotation.Configuration;
@@ -27,6 +30,9 @@ import java.util.LinkedHashMap;
  */
 @Configuration
 public class ShiroConfig {
+
+    @Value("${server.session-timeout}")
+    private int tomcatTimeout;
 
     @Value("${cacheType}")
     private String cacheType;
@@ -80,8 +86,20 @@ public class ShiroConfig {
 
     @Bean
     public SessionManager ossSessionManager(){
-        SessionManager ossSessionManager = new OSSSessionManager();
-
+        OSSSessionManager ossSessionManager = new OSSSessionManager();
+        //失效时间，毫秒
+        ossSessionManager.setGlobalSessionTimeout(tomcatTimeout*1000);
+        //session 访问层，默认为内存级，可更改为redis
+        ossSessionManager.setSessionDAO(new MemorySessionDAO());
+        //开启定时验证session是否过期的任务，并设置执行周期
+        ossSessionManager.setSessionValidationSchedulerEnabled(true);
+        ossSessionManager.setSessionValidationInterval(tomcatTimeout*500);
+        //默认为true，激活cookie获取sessionId
+        ossSessionManager.setSessionIdCookieEnabled(true);
+        //自定义SimpleCookie的名字，避免与tomcat或jetty撞车
+        SimpleCookie cookie = new SimpleCookie();
+        cookie.setName(Constant.SESSION_ID_COOKIE_NAME);
+        ossSessionManager.setSessionIdCookie(cookie);
         return ossSessionManager;
     }
 
@@ -97,6 +115,7 @@ public class ShiroConfig {
         em.setCacheManagerConfigFile("classpath:config/cache/ehcache.xml");
         return em;
     }
+
 
     /**
      *  开启shiro aop注解支持.

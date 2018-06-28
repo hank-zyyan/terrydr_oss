@@ -118,7 +118,7 @@
 
   <select id="selectLoginUserByUsername" parameterType="java.lang.String" resultMap="BaseResultMap">
     select
-    tsu.ID,tsu.USER_PWD,tsu.STATUS,tsu.ROLE_ID,tsr.ROLE_NAME
+    tsu.ID,tsu.USER_REAL_NAME,tsu.USER_NAME,tsu.USER_PWD,tsu.STATUS,tsu.ROLE_ID,tsr.ROLE_NAME
     from t_sys_user tsu
     LEFT JOIN t_sys_role tsr ON tsu.ROLE_ID = tsr.ID
     where tsu.USER_NAME = #{username,jdbcType=VARCHAR}

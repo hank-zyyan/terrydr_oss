@@ -16,7 +16,7 @@ import java.util.Date;
  * Copyright (C), 2018-2020, NanJing Terrydr. Co., Ltd.
  *
  * @Package: com.terrydr.common.filter
- * @Description: Access Log
+ * @Description: Access OperatorLog
  * @author: YanZhengYuan
  * @Date: 6/14/2018 7:41 PM
  * @version: 1.00

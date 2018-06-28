@@ -11,16 +11,16 @@ import com.terrydr.common.utils.Constant;
  * @Date: 6/11/2018 3:08 PM
  * @version: 1.00
  */
-public class Response {
+public class Response extends OSSObject{
     /**
      * @see Constant.ResponseCode
      */
     private int code = Constant.ResponseCode.SUCCESS;
-    private Object responseObject;
+    private OSSObject responseObject;
     private String responseMessage;
     private long responseDate;
 
-    public static Response success(String responseMessage, Object responseObject){
+    public static Response success(String responseMessage, OSSObject responseObject){
         Response response = new Response();
         response.setResponseDate(System.currentTimeMillis());
         response.setResponseMessage(responseMessage);
@@ -28,7 +28,7 @@ public class Response {
         return response;
     }
 
-    public static Response fail(String responseMessage, Object responseObject){
+    public static Response fail(String responseMessage, OSSObject responseObject){
         Response response = fail(responseMessage);
         response.setResponseObject(responseObject);
         return response;
@@ -78,11 +78,16 @@ public class Response {
         this.code = code;
     }
 
-    public Object getResponseObject() {
+    public OSSObject getResponseObject() {
         return responseObject;
     }
 
-    public void setResponseObject(Object responseObject) {
+    public void setResponseObject(OSSObject responseObject) {
         this.responseObject = responseObject;
+    }
+
+    @Override
+    public Integer getId() {
+        return null;
     }
 }

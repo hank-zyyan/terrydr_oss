@@ -1,5 +1,6 @@
 package com.terrydr.platform.controller;
 
+import com.terrydr.common.annotation.OperatorLog;
 import com.terrydr.common.domain.Response;
 import com.terrydr.common.exception.authenticator.UserLockedException;
 import com.terrydr.common.exception.authenticator.UserNotExistsException;

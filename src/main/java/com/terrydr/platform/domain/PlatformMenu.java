@@ -1,8 +1,10 @@
 package com.terrydr.platform.domain;
 
+import com.terrydr.common.domain.OSSObject;
+
 import java.util.Date;
 
-public class PlatformMenu {
+public class PlatformMenu extends OSSObject {
 
     private String style;
 

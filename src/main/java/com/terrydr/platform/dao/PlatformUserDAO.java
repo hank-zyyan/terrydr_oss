@@ -19,7 +19,7 @@ public interface PlatformUserDAO extends EntityDAO<PlatformUser> {
     PlatformUser selectByUsername(String username);
 
     /**
-     * 根据username，查询ID,USER_PWD,STATUS,ROLE_ID,ROLE_NAME
+     * 根据username，查询ID,USER_PWD,STATUS,USER_NAME,USER_REAL_NAMEROLE_ID,ROLE_NAME
      * @param username
      * @return
      */

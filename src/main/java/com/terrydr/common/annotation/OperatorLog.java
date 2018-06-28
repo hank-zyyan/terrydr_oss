@@ -16,9 +16,9 @@ import java.lang.annotation.Target;
 @Retention(RetentionPolicy.RUNTIME)
 @Documented
 @Inherited
-public @interface Log {
+public @interface OperatorLog {
 	int scope();
-	String scopeName();
-	int type();
+	//0、添加；1、更新；2、删除（更新）；3、删除；4、其他
+	int type() default 4;
 	String desc();
 }

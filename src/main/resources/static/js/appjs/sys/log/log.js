@@ -38,11 +38,8 @@ function load() {
                     return {
                         limit: params.limit,
                         offset: params.offset,
-                        name: $('#searchName').val(),
-                        sort: 'gmt_create',
-                        order: 'desc',
-                        operation: $("#searchOperation").val(),
-                        username: $("#searchUsername").val()
+                        userName: $("#searchUsername").val(),
+                        scope: $("#scope").val()
                     };
                 },
                 // //请求服务器数据时，你可以通过重写参数的方式添加一些额外的参数，例如 toolbar 中的参数 如果
@@ -53,30 +50,30 @@ function load() {
                 // 返回false将会终止请求
                 columns: [
                     {
-                        field: 'id', // 列字段名
+                        field: 'logId', // 列字段名
                         title: '序号', // 列标题
                         align: 'center',
                         valign: 'center',
                         width: '5%'
                     },
                     {
-                        field: 'userId',
-                        title: '用户Id'
+                        field: 'scopeName',
+                        title: '范围'
                     },
                     {
-                        field: 'username',
+                        field: 'userName',
                         title: '用户名'
                     },
                     {
-                        field: 'operation',
+                        field: 'operationDesc',
                         title: '操作'
                     },
                     {
-                        field: 'time',
-                        title: '用时'
+                        field: 'millionsTaken',
+                        title: '用时(毫秒)'
                     },
                     {
-                        field: 'method',
+                        field: 'methodName',
                         title: '方法'
                     },
                     {
@@ -84,14 +81,37 @@ function load() {
                         title: '参数'
                     },
                     {
+                        field: 'dataId',
+                        title: '返回'
+                    },
+                    {
                         field: 'ip',
                         title: 'IP地址'
                     },
                     {
-                        field: 'gmtCreate',
-                        title: '创建时间'
+                        field: 'dateLoged',
+                        title: '创建时间',
+                        //获取日期列的值进行转换
+                        formatter: function (value, row, index) {
+                            return changeDateFormat(value)
+                        }
                     }]
             });
+}
+
+//转换日期格式(时间戳转换为datetime格式)
+function changeDateFormat(cellval) {
+    if (cellval != null) {
+        var date = new Date(cellval);
+        var month = date.getMonth() + 1 < 10 ? "0" + (date.getMonth() + 1) : date.getMonth() + 1;
+        var currentDate = date.getDate() < 10 ? "0" + date.getDate() : date.getDate();
+
+        var hours = date.getHours() < 10 ? "0" + date.getHours() : date.getHours();
+        var minutes = date.getMinutes() < 10 ? "0" + date.getMinutes() : date.getMinutes();
+        var seconds = date.getSeconds() < 10 ? "0" + date.getSeconds() : date.getSeconds();
+
+        return date.getFullYear() + "-" + month + "-" + currentDate + " " + hours + ":" + minutes + ":" + seconds;
+    }
 }
 
 function reLoad() {

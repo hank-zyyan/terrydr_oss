@@ -58,4 +58,7 @@ public class Constant {
         public static final int ROOT_PARENT_ID = 0;
     }
 
+    //Shiro Session Name
+    public static final String SESSION_ID_COOKIE_NAME = "COM.TERRYDR.SESSIONID.COOKIE";
+
 }

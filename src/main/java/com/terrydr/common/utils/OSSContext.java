@@ -3,11 +3,16 @@ package com.terrydr.common.utils;
 import com.terrydr.common.service.CacheService;
 import com.terrydr.platform.domain.PlatformUser;
 import com.terrydr.platform.properties.PlatformDataSourceProperties;
+import com.terrydr.platform.service.PlatformLogService;
 import com.terrydr.platform.service.PlatformMenuService;
 import com.terrydr.platform.service.PlatformRoleService;
 import com.terrydr.platform.service.PlatformUserService;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Component;
+import org.springframework.web.context.request.RequestContextHolder;
+import org.springframework.web.context.request.ServletRequestAttributes;
+
+import javax.servlet.http.HttpServletRequest;
 
 /**
  * Copyright (C), 2018-2020, NanJing Terrydr. Co., Ltd.
@@ -27,6 +32,8 @@ public class OSSContext {
 
     private static PropertiesContext propertiesContext;
 
+    private static HttpContext httpContext;
+
     @Autowired
     public void setPropertiesContext(PropertiesContext propertiesContext) {
         OSSContext.propertiesContext = propertiesContext;
@@ -40,6 +47,11 @@ public class OSSContext {
     @Autowired
     public void setUserContext(UserContext userContext) {
         OSSContext.userContext = userContext;
+    }
+
+    @Autowired
+    public void setHttpContext(HttpContext httpContext) {
+        OSSContext.httpContext = httpContext;
     }
 
     /** user section **/
@@ -98,9 +110,19 @@ public class OSSContext {
         return serviceContext.getService(PlatformRoleService.class);
     }
 
+    public static PlatformLogService getPlatformLogService(){
+        return serviceContext.getService(PlatformLogService.class);
+    }
+
     /** property section **/
 
     public static PlatformDataSourceProperties getPlatformDataSourceProperties(){
         return propertiesContext.getPropery(PlatformDataSourceProperties.class);
+    }
+
+    /** http section **/
+
+    public static HttpServletRequest getHttpServletRequest() {
+        return httpContext.getHttpServletRequest();
     }
 }

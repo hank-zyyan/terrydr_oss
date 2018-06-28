@@ -1,8 +1,10 @@
 package com.terrydr.platform.domain;
 
+import com.terrydr.common.domain.OSSObject;
+
 import java.util.Date;
 
-public class PlatformUser {
+public class PlatformUser extends OSSObject {
 
     @Override
     public String toString() {
