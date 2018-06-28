@@ -2,6 +2,7 @@ package com.terrydr.common.filter;
 
 import org.apache.commons.logging.Log;
 import org.apache.commons.logging.LogFactory;
+import org.springframework.boot.autoconfigure.condition.ConditionalOnProperty;
 import org.springframework.stereotype.Component;
 
 import javax.servlet.*;
@@ -23,6 +24,7 @@ import java.util.Date;
 
 @WebFilter
 @Component
+@ConditionalOnProperty(name="spring.profiles.active", havingValue = "dev")
 public class AccessLogFilter implements Filter {
 
     private static final Log logger = LogFactory.getLog(AccessLogFilter.class);

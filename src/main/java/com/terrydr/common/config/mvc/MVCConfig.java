@@ -23,10 +23,10 @@ public class MVCConfig implements WebMvcConfigurer {
     * @author YanZhengYaun
     * @date 6/14/2018 7:23 PM
     */
-    @Override
+    /*@Override
     public void addCorsMappings(CorsRegistry registry) {
         registry.addMapping("/**").allowedOrigins("*")
                 .allowedMethods("GET", "HEAD", "POST","PUT", "DELETE", "OPTIONS")
                 .allowCredentials(false).maxAge(3600);
-    }
+    }*/
 }

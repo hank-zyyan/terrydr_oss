@@ -33,14 +33,12 @@ function load() {
 						// sortOrder.
 						// 返回false将会终止请求
 						columns : [
-								{ // 列配置项
-									// 数据类型，详细参数配置参见文档http://bootstrap-table.wenzhixin.net.cn/zh-cn/documentation/
-									checkbox : true
-								// 列表中显示复选框
-								},
 								{
 									field : 'id', // 列字段名
-									title : '序号' // 列标题
+									title : '序号', // 列标题
+                                    align: 'center',
+                                    valign: 'center',
+                                    width: '5%'
 								},
 								{
 									field : 'roleDescribe',

@@ -34,10 +34,10 @@
         <!--<table tableName="t_sys_operation_log" domainObjectName="PlatformOperationLog" mapperName="PlatformOperationLogDAO" enableCountByExample="false" enableUpdateByExample="false" enableDeleteByExample="false" enableSelectByExample="false" selectByExampleQueryId="false"></table>-->
         <!--<table tableName="t_sys_login_log" domainObjectName="PlatformLoginLog" mapperName="PlatformLoginLogDAO" enableCountByExample="false" enableUpdateByExample="false" enableDeleteByExample="false" enableSelectByExample="false" selectByExampleQueryId="false"></table>-->
 
-        <table tableName="t_sys_menu" domainObjectName="PlatformMenu" mapperName="PlatformMenuDAO" enableCountByExample="false" enableUpdateByExample="false" enableDeleteByExample="false" enableSelectByExample="false" selectByExampleQueryId="false"></table>
-        <table tableName="t_sys_role" domainObjectName="PlatformRole" mapperName="PlatformRoleDAO" enableCountByExample="false" enableUpdateByExample="false" enableDeleteByExample="false" enableSelectByExample="false" selectByExampleQueryId="false"></table>
+        <table tableName="t_sys_operatation_log" domainObjectName="PlatformLog" mapperName="PlatformLogDAO" enableCountByExample="false" enableUpdateByExample="false" enableDeleteByExample="false" enableSelectByExample="false" selectByExampleQueryId="false"></table>
+       <!-- <table tableName="t_sys_role" domainObjectName="PlatformRole" mapperName="PlatformRoleDAO" enableCountByExample="false" enableUpdateByExample="false" enableDeleteByExample="false" enableSelectByExample="false" selectByExampleQueryId="false"></table>
         <table tableName="t_sys_role_menu" domainObjectName="PlatformRole2Menu" mapperName="PlatformRole2MenuDAO" enableCountByExample="false" enableUpdateByExample="false" enableDeleteByExample="false" enableSelectByExample="false" selectByExampleQueryId="false"></table>
         <table tableName="t_sys_user" domainObjectName="PlatformUser" mapperName="PlatformUserDAO" enableCountByExample="false" enableUpdateByExample="false" enableDeleteByExample="false" enableSelectByExample="false" selectByExampleQueryId="false"></table>
-        <table tableName="t_sys_user_role" domainObjectName="PlatformUser2Role" mapperName="PlatformUser2RoleDAO" enableCountByExample="false" enableUpdateByExample="false" enableDeleteByExample="false" enableSelectByExample="false" selectByExampleQueryId="false"></table>
+        <table tableName="t_sys_user_role" domainObjectName="PlatformUser2Role" mapperName="PlatformUser2RoleDAO" enableCountByExample="false" enableUpdateByExample="false" enableDeleteByExample="false" enableSelectByExample="false" selectByExampleQueryId="false"></table>-->
     </context>
 </generatorConfiguration>

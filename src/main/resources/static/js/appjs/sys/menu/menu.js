@@ -19,7 +19,7 @@ var load = function () {
                 // toolbar : '#exampleToolbar',
                 columns: [
                     {
-                        title: '编号',
+                        title: '序号',
                         field: 'id',
                         visible: false,
                         align: 'center',

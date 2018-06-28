@@ -48,7 +48,10 @@ function load() {
 					},
 					{
 						field : 'id', // 列字段名
-						title : '序号' // 列标题
+						title : '序号',// 列标题
+                        align: 'center',
+                        valign: 'center',
+                        width: '5%'
 					},
 					{
 						field : 'userRealName',
@@ -86,7 +89,7 @@ function load() {
 							var e = '<a  class="btn btn-primary btn-sm" href="#" mce_href="#" title="编辑" onclick="edit(\''
 								+ row.id
 								+ '\')"><i class="fa fa-edit "></i></a> ';
-							var d = '<a class="btn btn-warning btn-sm" href="#" title="禁用"  mce_href="#" onclick="remove(\''
+							var d = '<a class="btn btn-warning btn-sm" href="#" title="禁用"  mce_href="#" onclick="stop(\''
 								+ row.id
 								+ '\')"><i class="fa fa-ban"></i></a> ';
 							var f = '<a class="btn btn-success btn-sm" href="#" title="重置密码"  mce_href="#" onclick="resetPwd(\''
@@ -114,7 +117,7 @@ function add() {
 		content : prefix + '/add'
 	});
 }
-function remove(id) {
+function stop(id) {
 	layer.confirm('确定要禁用选中的记录？', {
 		btn : [ '确定', '取消' ]
 	}, function() {
