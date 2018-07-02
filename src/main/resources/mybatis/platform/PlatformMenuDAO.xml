@@ -68,7 +68,7 @@
         order by ${order} ${orderDirection}
       </when>
       <otherwise>
-        order by ID asc
+        order by SORT asc
       </otherwise>
     </choose>
     <if test="offset != null and limit != null">

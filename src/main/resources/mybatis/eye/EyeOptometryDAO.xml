@@ -1,0 +1,354 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+<mapper namespace="com.terrydr.eye.dao.EyeOptometryDAO">
+  <resultMap id="BaseResultMap" type="com.terrydr.eye.domain.EyeOptometry">
+    <id column="id" jdbcType="INTEGER" property="id" />
+    <result column="encrypt_id" jdbcType="VARCHAR" property="encryptId" />
+    <result column="encounter_id" jdbcType="INTEGER" property="encounterId" />
+    <result column="encounter_encrypt_id" jdbcType="VARCHAR" property="encounterEncryptId" />
+    <result column="collect_file" jdbcType="VARCHAR" property="collectFile" />
+    <result column="l_mydriasis" jdbcType="INTEGER" property="lMydriasis" />
+    <result column="r_mydriasis" jdbcType="INTEGER" property="rMydriasis" />
+    <result column="l_ar_sph" jdbcType="VARCHAR" property="lArSph" />
+    <result column="r_ar_sph" jdbcType="VARCHAR" property="rArSph" />
+    <result column="l_ar_cyl" jdbcType="VARCHAR" property="lArCyl" />
+    <result column="r_ar_cyl" jdbcType="VARCHAR" property="rArCyl" />
+    <result column="l_ar_axial" jdbcType="VARCHAR" property="lArAxial" />
+    <result column="r_ar_axial" jdbcType="VARCHAR" property="rArAxial" />
+    <result column="l_ar_ccv_horizontal" jdbcType="VARCHAR" property="lArCcvHorizontal" />
+    <result column="r_ar_ccv_horizontal" jdbcType="VARCHAR" property="rArCcvHorizontal" />
+    <result column="l_ar_ccv_verticality" jdbcType="VARCHAR" property="lArCcvVerticality" />
+    <result column="r_ar_ccv_verticality" jdbcType="VARCHAR" property="rArCcvVerticality" />
+    <result column="l_io_sph" jdbcType="VARCHAR" property="lIoSph" />
+    <result column="r_io_sph" jdbcType="VARCHAR" property="rIoSph" />
+    <result column="l_io_cyl" jdbcType="VARCHAR" property="lIoCyl" />
+    <result column="r_io_cyl" jdbcType="VARCHAR" property="rIoCyl" />
+    <result column="cover" jdbcType="VARCHAR" property="cover" />
+    <result column="remark" jdbcType="VARCHAR" property="remark" />
+    <result column="note" jdbcType="VARCHAR" property="note" />
+    <result column="create_time" jdbcType="TIMESTAMP" property="createTime" />
+    <result column="last_update_time" jdbcType="TIMESTAMP" property="lastUpdateTime" />
+    <result column="is_delete" jdbcType="INTEGER" property="isDelete" />
+  </resultMap>
+  <sql id="Base_Column_List">
+    id, encrypt_id, encounter_id, encounter_encrypt_id, collect_file, l_mydriasis, r_mydriasis, 
+    l_ar_sph, r_ar_sph, l_ar_cyl, r_ar_cyl, l_ar_axial, r_ar_axial, l_ar_ccv_horizontal, 
+    r_ar_ccv_horizontal, l_ar_ccv_verticality, r_ar_ccv_verticality, l_io_sph, r_io_sph, 
+    l_io_cyl, r_io_cyl, cover, remark, note, create_time, last_update_time, is_delete
+  </sql>
+  <select id="selectByPrimaryKey" parameterType="java.lang.Integer" resultMap="BaseResultMap">
+    select 
+    <include refid="Base_Column_List" />
+    from t_optometry
+    where id = #{id,jdbcType=INTEGER}
+  </select>
+  <delete id="deleteByPrimaryKey" parameterType="java.lang.Integer">
+    delete from t_optometry
+    where id = #{id,jdbcType=INTEGER}
+  </delete>
+  <insert id="insert" parameterType="com.terrydr.eye.domain.EyeOptometry">
+    insert into t_optometry (id, encrypt_id, encounter_id, 
+      encounter_encrypt_id, collect_file, l_mydriasis, 
+      r_mydriasis, l_ar_sph, r_ar_sph, 
+      l_ar_cyl, r_ar_cyl, l_ar_axial, 
+      r_ar_axial, l_ar_ccv_horizontal, r_ar_ccv_horizontal, 
+      l_ar_ccv_verticality, r_ar_ccv_verticality, l_io_sph, 
+      r_io_sph, l_io_cyl, r_io_cyl, 
+      cover, remark, note, 
+      create_time, last_update_time, is_delete
+      )
+    values (#{id,jdbcType=INTEGER}, #{encryptId,jdbcType=VARCHAR}, #{encounterId,jdbcType=INTEGER}, 
+      #{encounterEncryptId,jdbcType=VARCHAR}, #{collectFile,jdbcType=VARCHAR}, #{lMydriasis,jdbcType=INTEGER}, 
+      #{rMydriasis,jdbcType=INTEGER}, #{lArSph,jdbcType=VARCHAR}, #{rArSph,jdbcType=VARCHAR}, 
+      #{lArCyl,jdbcType=VARCHAR}, #{rArCyl,jdbcType=VARCHAR}, #{lArAxial,jdbcType=VARCHAR}, 
+      #{rArAxial,jdbcType=VARCHAR}, #{lArCcvHorizontal,jdbcType=VARCHAR}, #{rArCcvHorizontal,jdbcType=VARCHAR}, 
+      #{lArCcvVerticality,jdbcType=VARCHAR}, #{rArCcvVerticality,jdbcType=VARCHAR}, #{lIoSph,jdbcType=VARCHAR}, 
+      #{rIoSph,jdbcType=VARCHAR}, #{lIoCyl,jdbcType=VARCHAR}, #{rIoCyl,jdbcType=VARCHAR}, 
+      #{cover,jdbcType=VARCHAR}, #{remark,jdbcType=VARCHAR}, #{note,jdbcType=VARCHAR}, 
+      #{createTime,jdbcType=TIMESTAMP}, #{lastUpdateTime,jdbcType=TIMESTAMP}, #{isDelete,jdbcType=INTEGER}
+      )
+  </insert>
+  <insert id="insertSelective" parameterType="com.terrydr.eye.domain.EyeOptometry">
+    insert into t_optometry
+    <trim prefix="(" suffix=")" suffixOverrides=",">
+      <if test="id != null">
+        id,
+      </if>
+      <if test="encryptId != null">
+        encrypt_id,
+      </if>
+      <if test="encounterId != null">
+        encounter_id,
+      </if>
+      <if test="encounterEncryptId != null">
+        encounter_encrypt_id,
+      </if>
+      <if test="collectFile != null">
+        collect_file,
+      </if>
+      <if test="lMydriasis != null">
+        l_mydriasis,
+      </if>
+      <if test="rMydriasis != null">
+        r_mydriasis,
+      </if>
+      <if test="lArSph != null">
+        l_ar_sph,
+      </if>
+      <if test="rArSph != null">
+        r_ar_sph,
+      </if>
+      <if test="lArCyl != null">
+        l_ar_cyl,
+      </if>
+      <if test="rArCyl != null">
+        r_ar_cyl,
+      </if>
+      <if test="lArAxial != null">
+        l_ar_axial,
+      </if>
+      <if test="rArAxial != null">
+        r_ar_axial,
+      </if>
+      <if test="lArCcvHorizontal != null">
+        l_ar_ccv_horizontal,
+      </if>
+      <if test="rArCcvHorizontal != null">
+        r_ar_ccv_horizontal,
+      </if>
+      <if test="lArCcvVerticality != null">
+        l_ar_ccv_verticality,
+      </if>
+      <if test="rArCcvVerticality != null">
+        r_ar_ccv_verticality,
+      </if>
+      <if test="lIoSph != null">
+        l_io_sph,
+      </if>
+      <if test="rIoSph != null">
+        r_io_sph,
+      </if>
+      <if test="lIoCyl != null">
+        l_io_cyl,
+      </if>
+      <if test="rIoCyl != null">
+        r_io_cyl,
+      </if>
+      <if test="cover != null">
+        cover,
+      </if>
+      <if test="remark != null">
+        remark,
+      </if>
+      <if test="note != null">
+        note,
+      </if>
+      <if test="createTime != null">
+        create_time,
+      </if>
+      <if test="lastUpdateTime != null">
+        last_update_time,
+      </if>
+      <if test="isDelete != null">
+        is_delete,
+      </if>
+    </trim>
+    <trim prefix="values (" suffix=")" suffixOverrides=",">
+      <if test="id != null">
+        #{id,jdbcType=INTEGER},
+      </if>
+      <if test="encryptId != null">
+        #{encryptId,jdbcType=VARCHAR},
+      </if>
+      <if test="encounterId != null">
+        #{encounterId,jdbcType=INTEGER},
+      </if>
+      <if test="encounterEncryptId != null">
+        #{encounterEncryptId,jdbcType=VARCHAR},
+      </if>
+      <if test="collectFile != null">
+        #{collectFile,jdbcType=VARCHAR},
+      </if>
+      <if test="lMydriasis != null">
+        #{lMydriasis,jdbcType=INTEGER},
+      </if>
+      <if test="rMydriasis != null">
+        #{rMydriasis,jdbcType=INTEGER},
+      </if>
+      <if test="lArSph != null">
+        #{lArSph,jdbcType=VARCHAR},
+      </if>
+      <if test="rArSph != null">
+        #{rArSph,jdbcType=VARCHAR},
+      </if>
+      <if test="lArCyl != null">
+        #{lArCyl,jdbcType=VARCHAR},
+      </if>
+      <if test="rArCyl != null">
+        #{rArCyl,jdbcType=VARCHAR},
+      </if>
+      <if test="lArAxial != null">
+        #{lArAxial,jdbcType=VARCHAR},
+      </if>
+      <if test="rArAxial != null">
+        #{rArAxial,jdbcType=VARCHAR},
+      </if>
+      <if test="lArCcvHorizontal != null">
+        #{lArCcvHorizontal,jdbcType=VARCHAR},
+      </if>
+      <if test="rArCcvHorizontal != null">
+        #{rArCcvHorizontal,jdbcType=VARCHAR},
+      </if>
+      <if test="lArCcvVerticality != null">
+        #{lArCcvVerticality,jdbcType=VARCHAR},
+      </if>
+      <if test="rArCcvVerticality != null">
+        #{rArCcvVerticality,jdbcType=VARCHAR},
+      </if>
+      <if test="lIoSph != null">
+        #{lIoSph,jdbcType=VARCHAR},
+      </if>
+      <if test="rIoSph != null">
+        #{rIoSph,jdbcType=VARCHAR},
+      </if>
+      <if test="lIoCyl != null">
+        #{lIoCyl,jdbcType=VARCHAR},
+      </if>
+      <if test="rIoCyl != null">
+        #{rIoCyl,jdbcType=VARCHAR},
+      </if>
+      <if test="cover != null">
+        #{cover,jdbcType=VARCHAR},
+      </if>
+      <if test="remark != null">
+        #{remark,jdbcType=VARCHAR},
+      </if>
+      <if test="note != null">
+        #{note,jdbcType=VARCHAR},
+      </if>
+      <if test="createTime != null">
+        #{createTime,jdbcType=TIMESTAMP},
+      </if>
+      <if test="lastUpdateTime != null">
+        #{lastUpdateTime,jdbcType=TIMESTAMP},
+      </if>
+      <if test="isDelete != null">
+        #{isDelete,jdbcType=INTEGER},
+      </if>
+    </trim>
+  </insert>
+  <update id="updateByPrimaryKeySelective" parameterType="com.terrydr.eye.domain.EyeOptometry">
+    update t_optometry
+    <set>
+      <if test="encryptId != null">
+        encrypt_id = #{encryptId,jdbcType=VARCHAR},
+      </if>
+      <if test="encounterId != null">
+        encounter_id = #{encounterId,jdbcType=INTEGER},
+      </if>
+      <if test="encounterEncryptId != null">
+        encounter_encrypt_id = #{encounterEncryptId,jdbcType=VARCHAR},
+      </if>
+      <if test="collectFile != null">
+        collect_file = #{collectFile,jdbcType=VARCHAR},
+      </if>
+      <if test="lMydriasis != null">
+        l_mydriasis = #{lMydriasis,jdbcType=INTEGER},
+      </if>
+      <if test="rMydriasis != null">
+        r_mydriasis = #{rMydriasis,jdbcType=INTEGER},
+      </if>
+      <if test="lArSph != null">
+        l_ar_sph = #{lArSph,jdbcType=VARCHAR},
+      </if>
+      <if test="rArSph != null">
+        r_ar_sph = #{rArSph,jdbcType=VARCHAR},
+      </if>
+      <if test="lArCyl != null">
+        l_ar_cyl = #{lArCyl,jdbcType=VARCHAR},
+      </if>
+      <if test="rArCyl != null">
+        r_ar_cyl = #{rArCyl,jdbcType=VARCHAR},
+      </if>
+      <if test="lArAxial != null">
+        l_ar_axial = #{lArAxial,jdbcType=VARCHAR},
+      </if>
+      <if test="rArAxial != null">
+        r_ar_axial = #{rArAxial,jdbcType=VARCHAR},
+      </if>
+      <if test="lArCcvHorizontal != null">
+        l_ar_ccv_horizontal = #{lArCcvHorizontal,jdbcType=VARCHAR},
+      </if>
+      <if test="rArCcvHorizontal != null">
+        r_ar_ccv_horizontal = #{rArCcvHorizontal,jdbcType=VARCHAR},
+      </if>
+      <if test="lArCcvVerticality != null">
+        l_ar_ccv_verticality = #{lArCcvVerticality,jdbcType=VARCHAR},
+      </if>
+      <if test="rArCcvVerticality != null">
+        r_ar_ccv_verticality = #{rArCcvVerticality,jdbcType=VARCHAR},
+      </if>
+      <if test="lIoSph != null">
+        l_io_sph = #{lIoSph,jdbcType=VARCHAR},
+      </if>
+      <if test="rIoSph != null">
+        r_io_sph = #{rIoSph,jdbcType=VARCHAR},
+      </if>
+      <if test="lIoCyl != null">
+        l_io_cyl = #{lIoCyl,jdbcType=VARCHAR},
+      </if>
+      <if test="rIoCyl != null">
+        r_io_cyl = #{rIoCyl,jdbcType=VARCHAR},
+      </if>
+      <if test="cover != null">
+        cover = #{cover,jdbcType=VARCHAR},
+      </if>
+      <if test="remark != null">
+        remark = #{remark,jdbcType=VARCHAR},
+      </if>
+      <if test="note != null">
+        note = #{note,jdbcType=VARCHAR},
+      </if>
+      <if test="createTime != null">
+        create_time = #{createTime,jdbcType=TIMESTAMP},
+      </if>
+      <if test="lastUpdateTime != null">
+        last_update_time = #{lastUpdateTime,jdbcType=TIMESTAMP},
+      </if>
+      <if test="isDelete != null">
+        is_delete = #{isDelete,jdbcType=INTEGER},
+      </if>
+    </set>
+    where id = #{id,jdbcType=INTEGER}
+  </update>
+  <update id="updateByPrimaryKey" parameterType="com.terrydr.eye.domain.EyeOptometry">
+    update t_optometry
+    set encrypt_id = #{encryptId,jdbcType=VARCHAR},
+      encounter_id = #{encounterId,jdbcType=INTEGER},
+      encounter_encrypt_id = #{encounterEncryptId,jdbcType=VARCHAR},
+      collect_file = #{collectFile,jdbcType=VARCHAR},
+      l_mydriasis = #{lMydriasis,jdbcType=INTEGER},
+      r_mydriasis = #{rMydriasis,jdbcType=INTEGER},
+      l_ar_sph = #{lArSph,jdbcType=VARCHAR},
+      r_ar_sph = #{rArSph,jdbcType=VARCHAR},
+      l_ar_cyl = #{lArCyl,jdbcType=VARCHAR},
+      r_ar_cyl = #{rArCyl,jdbcType=VARCHAR},
+      l_ar_axial = #{lArAxial,jdbcType=VARCHAR},
+      r_ar_axial = #{rArAxial,jdbcType=VARCHAR},
+      l_ar_ccv_horizontal = #{lArCcvHorizontal,jdbcType=VARCHAR},
+      r_ar_ccv_horizontal = #{rArCcvHorizontal,jdbcType=VARCHAR},
+      l_ar_ccv_verticality = #{lArCcvVerticality,jdbcType=VARCHAR},
+      r_ar_ccv_verticality = #{rArCcvVerticality,jdbcType=VARCHAR},
+      l_io_sph = #{lIoSph,jdbcType=VARCHAR},
+      r_io_sph = #{rIoSph,jdbcType=VARCHAR},
+      l_io_cyl = #{lIoCyl,jdbcType=VARCHAR},
+      r_io_cyl = #{rIoCyl,jdbcType=VARCHAR},
+      cover = #{cover,jdbcType=VARCHAR},
+      remark = #{remark,jdbcType=VARCHAR},
+      note = #{note,jdbcType=VARCHAR},
+      create_time = #{createTime,jdbcType=TIMESTAMP},
+      last_update_time = #{lastUpdateTime,jdbcType=TIMESTAMP},
+      is_delete = #{isDelete,jdbcType=INTEGER}
+    where id = #{id,jdbcType=INTEGER}
+  </update>
+</mapper>

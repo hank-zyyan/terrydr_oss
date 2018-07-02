@@ -1,0 +1,248 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+<mapper namespace="com.terrydr.eye.dao.EyeVisionExamDAO">
+  <resultMap id="BaseResultMap" type="com.terrydr.eye.domain.EyeVisionExam">
+    <id column="id" jdbcType="INTEGER" property="id" />
+    <result column="encrypt_id" jdbcType="VARCHAR" property="encryptId" />
+    <result column="encounter_id" jdbcType="INTEGER" property="encounterId" />
+    <result column="encounter_encrypt_id" jdbcType="VARCHAR" property="encounterEncryptId" />
+    <result column="collect_file" jdbcType="VARCHAR" property="collectFile" />
+    <result column="l_diopter" jdbcType="INTEGER" property="lDiopter" />
+    <result column="r_diopter" jdbcType="INTEGER" property="rDiopter" />
+    <result column="h_strabismus" jdbcType="INTEGER" property="hStrabismus" />
+    <result column="v_strabismus" jdbcType="INTEGER" property="vStrabismus" />
+    <result column="red_flex_img" jdbcType="VARCHAR" property="redFlexImg" />
+    <result column="hirschberg_img" jdbcType="VARCHAR" property="hirschbergImg" />
+    <result column="status" jdbcType="INTEGER" property="status" />
+    <result column="cover" jdbcType="VARCHAR" property="cover" />
+    <result column="remark" jdbcType="VARCHAR" property="remark" />
+    <result column="note" jdbcType="VARCHAR" property="note" />
+    <result column="create_time" jdbcType="TIMESTAMP" property="createTime" />
+    <result column="last_update_time" jdbcType="TIMESTAMP" property="lastUpdateTime" />
+    <result column="is_delete" jdbcType="INTEGER" property="isDelete" />
+  </resultMap>
+  <sql id="Base_Column_List">
+    id, encrypt_id, encounter_id, encounter_encrypt_id, collect_file, l_diopter, r_diopter, 
+    h_strabismus, v_strabismus, red_flex_img, hirschberg_img, status, cover, remark, 
+    note, create_time, last_update_time, is_delete
+  </sql>
+  <select id="selectByPrimaryKey" parameterType="java.lang.Integer" resultMap="BaseResultMap">
+    select 
+    <include refid="Base_Column_List" />
+    from t_vision_exam
+    where id = #{id,jdbcType=INTEGER}
+  </select>
+  <delete id="deleteByPrimaryKey" parameterType="java.lang.Integer">
+    delete from t_vision_exam
+    where id = #{id,jdbcType=INTEGER}
+  </delete>
+  <insert id="insert" parameterType="com.terrydr.eye.domain.EyeVisionExam">
+    insert into t_vision_exam (id, encrypt_id, encounter_id, 
+      encounter_encrypt_id, collect_file, l_diopter, 
+      r_diopter, h_strabismus, v_strabismus, 
+      red_flex_img, hirschberg_img, status, 
+      cover, remark, note, 
+      create_time, last_update_time, is_delete
+      )
+    values (#{id,jdbcType=INTEGER}, #{encryptId,jdbcType=VARCHAR}, #{encounterId,jdbcType=INTEGER}, 
+      #{encounterEncryptId,jdbcType=VARCHAR}, #{collectFile,jdbcType=VARCHAR}, #{lDiopter,jdbcType=INTEGER}, 
+      #{rDiopter,jdbcType=INTEGER}, #{hStrabismus,jdbcType=INTEGER}, #{vStrabismus,jdbcType=INTEGER}, 
+      #{redFlexImg,jdbcType=VARCHAR}, #{hirschbergImg,jdbcType=VARCHAR}, #{status,jdbcType=INTEGER}, 
+      #{cover,jdbcType=VARCHAR}, #{remark,jdbcType=VARCHAR}, #{note,jdbcType=VARCHAR}, 
+      #{createTime,jdbcType=TIMESTAMP}, #{lastUpdateTime,jdbcType=TIMESTAMP}, #{isDelete,jdbcType=INTEGER}
+      )
+  </insert>
+  <insert id="insertSelective" parameterType="com.terrydr.eye.domain.EyeVisionExam">
+    insert into t_vision_exam
+    <trim prefix="(" suffix=")" suffixOverrides=",">
+      <if test="id != null">
+        id,
+      </if>
+      <if test="encryptId != null">
+        encrypt_id,
+      </if>
+      <if test="encounterId != null">
+        encounter_id,
+      </if>
+      <if test="encounterEncryptId != null">
+        encounter_encrypt_id,
+      </if>
+      <if test="collectFile != null">
+        collect_file,
+      </if>
+      <if test="lDiopter != null">
+        l_diopter,
+      </if>
+      <if test="rDiopter != null">
+        r_diopter,
+      </if>
+      <if test="hStrabismus != null">
+        h_strabismus,
+      </if>
+      <if test="vStrabismus != null">
+        v_strabismus,
+      </if>
+      <if test="redFlexImg != null">
+        red_flex_img,
+      </if>
+      <if test="hirschbergImg != null">
+        hirschberg_img,
+      </if>
+      <if test="status != null">
+        status,
+      </if>
+      <if test="cover != null">
+        cover,
+      </if>
+      <if test="remark != null">
+        remark,
+      </if>
+      <if test="note != null">
+        note,
+      </if>
+      <if test="createTime != null">
+        create_time,
+      </if>
+      <if test="lastUpdateTime != null">
+        last_update_time,
+      </if>
+      <if test="isDelete != null">
+        is_delete,
+      </if>
+    </trim>
+    <trim prefix="values (" suffix=")" suffixOverrides=",">
+      <if test="id != null">
+        #{id,jdbcType=INTEGER},
+      </if>
+      <if test="encryptId != null">
+        #{encryptId,jdbcType=VARCHAR},
+      </if>
+      <if test="encounterId != null">
+        #{encounterId,jdbcType=INTEGER},
+      </if>
+      <if test="encounterEncryptId != null">
+        #{encounterEncryptId,jdbcType=VARCHAR},
+      </if>
+      <if test="collectFile != null">
+        #{collectFile,jdbcType=VARCHAR},
+      </if>
+      <if test="lDiopter != null">
+        #{lDiopter,jdbcType=INTEGER},
+      </if>
+      <if test="rDiopter != null">
+        #{rDiopter,jdbcType=INTEGER},
+      </if>
+      <if test="hStrabismus != null">
+        #{hStrabismus,jdbcType=INTEGER},
+      </if>
+      <if test="vStrabismus != null">
+        #{vStrabismus,jdbcType=INTEGER},
+      </if>
+      <if test="redFlexImg != null">
+        #{redFlexImg,jdbcType=VARCHAR},
+      </if>
+      <if test="hirschbergImg != null">
+        #{hirschbergImg,jdbcType=VARCHAR},
+      </if>
+      <if test="status != null">
+        #{status,jdbcType=INTEGER},
+      </if>
+      <if test="cover != null">
+        #{cover,jdbcType=VARCHAR},
+      </if>
+      <if test="remark != null">
+        #{remark,jdbcType=VARCHAR},
+      </if>
+      <if test="note != null">
+        #{note,jdbcType=VARCHAR},
+      </if>
+      <if test="createTime != null">
+        #{createTime,jdbcType=TIMESTAMP},
+      </if>
+      <if test="lastUpdateTime != null">
+        #{lastUpdateTime,jdbcType=TIMESTAMP},
+      </if>
+      <if test="isDelete != null">
+        #{isDelete,jdbcType=INTEGER},
+      </if>
+    </trim>
+  </insert>
+  <update id="updateByPrimaryKeySelective" parameterType="com.terrydr.eye.domain.EyeVisionExam">
+    update t_vision_exam
+    <set>
+      <if test="encryptId != null">
+        encrypt_id = #{encryptId,jdbcType=VARCHAR},
+      </if>
+      <if test="encounterId != null">
+        encounter_id = #{encounterId,jdbcType=INTEGER},
+      </if>
+      <if test="encounterEncryptId != null">
+        encounter_encrypt_id = #{encounterEncryptId,jdbcType=VARCHAR},
+      </if>
+      <if test="collectFile != null">
+        collect_file = #{collectFile,jdbcType=VARCHAR},
+      </if>
+      <if test="lDiopter != null">
+        l_diopter = #{lDiopter,jdbcType=INTEGER},
+      </if>
+      <if test="rDiopter != null">
+        r_diopter = #{rDiopter,jdbcType=INTEGER},
+      </if>
+      <if test="hStrabismus != null">
+        h_strabismus = #{hStrabismus,jdbcType=INTEGER},
+      </if>
+      <if test="vStrabismus != null">
+        v_strabismus = #{vStrabismus,jdbcType=INTEGER},
+      </if>
+      <if test="redFlexImg != null">
+        red_flex_img = #{redFlexImg,jdbcType=VARCHAR},
+      </if>
+      <if test="hirschbergImg != null">
+        hirschberg_img = #{hirschbergImg,jdbcType=VARCHAR},
+      </if>
+      <if test="status != null">
+        status = #{status,jdbcType=INTEGER},
+      </if>
+      <if test="cover != null">
+        cover = #{cover,jdbcType=VARCHAR},
+      </if>
+      <if test="remark != null">
+        remark = #{remark,jdbcType=VARCHAR},
+      </if>
+      <if test="note != null">
+        note = #{note,jdbcType=VARCHAR},
+      </if>
+      <if test="createTime != null">
+        create_time = #{createTime,jdbcType=TIMESTAMP},
+      </if>
+      <if test="lastUpdateTime != null">
+        last_update_time = #{lastUpdateTime,jdbcType=TIMESTAMP},
+      </if>
+      <if test="isDelete != null">
+        is_delete = #{isDelete,jdbcType=INTEGER},
+      </if>
+    </set>
+    where id = #{id,jdbcType=INTEGER}
+  </update>
+  <update id="updateByPrimaryKey" parameterType="com.terrydr.eye.domain.EyeVisionExam">
+    update t_vision_exam
+    set encrypt_id = #{encryptId,jdbcType=VARCHAR},
+      encounter_id = #{encounterId,jdbcType=INTEGER},
+      encounter_encrypt_id = #{encounterEncryptId,jdbcType=VARCHAR},
+      collect_file = #{collectFile,jdbcType=VARCHAR},
+      l_diopter = #{lDiopter,jdbcType=INTEGER},
+      r_diopter = #{rDiopter,jdbcType=INTEGER},
+      h_strabismus = #{hStrabismus,jdbcType=INTEGER},
+      v_strabismus = #{vStrabismus,jdbcType=INTEGER},
+      red_flex_img = #{redFlexImg,jdbcType=VARCHAR},
+      hirschberg_img = #{hirschbergImg,jdbcType=VARCHAR},
+      status = #{status,jdbcType=INTEGER},
+      cover = #{cover,jdbcType=VARCHAR},
+      remark = #{remark,jdbcType=VARCHAR},
+      note = #{note,jdbcType=VARCHAR},
+      create_time = #{createTime,jdbcType=TIMESTAMP},
+      last_update_time = #{lastUpdateTime,jdbcType=TIMESTAMP},
+      is_delete = #{isDelete,jdbcType=INTEGER}
+    where id = #{id,jdbcType=INTEGER}
+  </update>
+</mapper>
