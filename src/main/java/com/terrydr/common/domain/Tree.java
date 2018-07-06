@@ -112,21 +112,7 @@ public abstract class Tree<T extends Tree> {
                 Stack<E> stack = new Stack<>();
                 list.add(root); //将树根放入结果集
                 stack.push(root);
-                while (!stack.isEmpty()){
-                    E tree = stack.pop();
-                    List<E> cList;
-                    if((cList = treeMap.get(tree.getId())) != null){
-                        for(E child : cList){
-                            if(child != null){
-                                if(tree.getChildren() == null){
-                                    tree.setChildren(new ArrayList<E>());
-                                }
-                                tree.getChildren().add(child);
-                                stack.push(child);
-                            }
-                        }
-                    }
-                }
+                stack(stack, treeMap);
             }
         }
         logger.debug(list);
@@ -150,23 +136,31 @@ public abstract class Tree<T extends Tree> {
                 }
                 rootTree.getChildren().add(root);//将树放入根
                 stack.push(root);
-                while (!stack.isEmpty()){
-                    E tree = stack.pop();
-                    List<E> cList;
-                    if((cList = treeMap.get(tree.getId())) != null){
-                        for(E child : cList){
-                            if(child != null){
-                                if(tree.getChildren() == null){
-                                    tree.setChildren(new ArrayList<E>());
-                                }
-                                tree.getChildren().add(child);
-                                stack.push(child);
-                            }
-                        }
-                    }
-                }
+                stack(stack, treeMap);
             }
         }
         logger.debug(rootTree);
     }
+
+    private static <E extends Tree> void stack(Stack<E> stack, Map<Integer, List<E>> treeMap){
+        if(stack == null){
+            return;
+        }
+        while (!stack.isEmpty()){
+            E tree = stack.pop();
+            List<E> cList;
+            if((cList = treeMap.get(tree.getId())) != null){
+                for(E child : cList){
+                    if(child != null){
+                        if(tree.getChildren() == null){
+                            tree.setChildren(new ArrayList<E>());
+                        }
+                        tree.getChildren().add(child);
+                        stack.push(child);
+                    }
+                }
+            }
+        }
+    }
+
 }

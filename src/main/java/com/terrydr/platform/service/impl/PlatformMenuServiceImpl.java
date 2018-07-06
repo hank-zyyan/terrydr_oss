@@ -49,7 +49,7 @@ public class PlatformMenuServiceImpl implements PlatformMenuService{
     * @date 6/15/2018 10:52 AM
     */
     @Override
-    @Cacheable(keyGenerator="platformMenuKeyGen")
+    @Cacheable(keyGenerator= "currentUserRoleIdKeyGen")
     public List<MenuTree> getUserMenu() {
         //1.验证是否认证
         if(!OSSContext.isAuthenticated()){
@@ -100,7 +100,7 @@ public class PlatformMenuServiceImpl implements PlatformMenuService{
         JSTree root = new JSTree();
         root.setId(-1);
         root.setParentId(0);
-        root.setChildren(new ArrayList<JSTree>());
+        root.setChildren(new ArrayList<>());
         root.setText("顶级节点");
         Map<String, Object> state = new HashMap<>(16);
         state.put("opened", true);
@@ -112,6 +112,7 @@ public class PlatformMenuServiceImpl implements PlatformMenuService{
     }
 
     @Override
+    @Cacheable
     public JSTree getEnableMenusTreeByRoleId(Integer roleId) {
         //1.获取可用的菜单列表
         List<PlatformMenu> menus = platformMenuDAO.selectEnableJsTreeMenu();
@@ -124,7 +125,7 @@ public class PlatformMenuServiceImpl implements PlatformMenuService{
         for (PlatformMenu menu : menus){
             Integer pId = menu.getParentMenuId();
             JSTree jsTree = new JSTree(menu);
-            if(menuIds.contains(menu.getId())){  //已关联
+            if(menu.getMenuLevel() == 3 && menuIds != null && menuIds.contains(menu.getId())){  //已关联
                 Map<String, Object> state = new HashMap<>(16);
                 state.put("selected", true);
                 jsTree.setState(state);
@@ -142,7 +143,7 @@ public class PlatformMenuServiceImpl implements PlatformMenuService{
         JSTree root = new JSTree();
         root.setId(-1);
         root.setParentId(0);
-        root.setChildren(new ArrayList<JSTree>());
+        root.setChildren(new ArrayList<>());
         root.setText("顶级节点");
         Map<String, Object> state = new HashMap<>(16);
         state.put("opened", true);

@@ -1,6 +1,5 @@
 package com.terrydr.platform.service.impl;
 
-import com.terrydr.common.exception.service.ErrorParameterException;
 import com.terrydr.common.exception.service.NullParameterException;
 import com.terrydr.common.utils.OSSContext;
 import com.terrydr.platform.dao.PlatformRole2MenuDAO;
@@ -10,6 +9,7 @@ import com.terrydr.platform.domain.PlatformRole2Menu;
 import com.terrydr.platform.service.PlatformRoleService;
 import org.apache.commons.logging.Log;
 import org.apache.commons.logging.LogFactory;
+import org.springframework.cache.annotation.CacheEvict;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
 import org.springframework.util.Assert;
@@ -64,6 +64,7 @@ public class PlatformRoleServiceImpl implements PlatformRoleService {
      */
     @Override
     @Transactional("platformTransactionManager")
+    @CacheEvict(cacheNames = "menu",keyGenerator= "upLoadedRoleIdKeyGen")
     public void saveRoleWithAccessableMenus(PlatformRole roleToSave, int... menuIdsToAccess) {
         logger.debug(menuIdsToAccess);
         roleToSave.setCreateTime(null);
@@ -74,28 +75,25 @@ public class PlatformRoleServiceImpl implements PlatformRoleService {
         if(StringUtils.isEmpty(roleToSave.getRoleDescribe())){
             throw new NullParameterException("roleDescribe");
         }
-        if(menuIdsToAccess == null){
-            throw new NullParameterException("ids");
-        }
+
+        //1.创建新的角色
         roleToSave.setCreateUser(OSSContext.getCurrentUser().getUserName());
         platformRoleDAO.insertSelective(roleToSave);
-        Integer roleId = roleToSave.getId();
 
+        //2.获取新的角色的主键ID
+        Integer roleId = roleToSave.getId();
         Assert.notNull(roleId, "新插入的角色ID，不可能为空");
 
-        //保存角色和菜单关系
-        for(int mId : menuIdsToAccess){
-            if(mId == -1){ //根节点为虚拟节点，id=-1，去除
-                continue;
-            }
-            PlatformRole2Menu r2m = new PlatformRole2Menu();
-            r2m.setMenuId(mId);
-            r2m.setRoleId(roleId);
-            platformRole2MenuDAO.insert(r2m);
+        //3..维护角色和菜单关系
+        if(menuIdsToAccess != null){
+            keepRolesToUser(roleId, menuIdsToAccess);
         }
+
     }
 
     @Override
+    @Transactional("platformTransactionManager")
+    @CacheEvict(cacheNames = "menu",keyGenerator= "upLoadedRoleIdKeyGen")
     public void updateRoleWithAccessableMenus(PlatformRole roleToUpdate, int... menuIdsToAccess) {
         roleToUpdate.setCreateTime(null);
         roleToUpdate.setStatus(null);
@@ -109,9 +107,6 @@ public class PlatformRoleServiceImpl implements PlatformRoleService {
         if(StringUtils.isEmpty(roleToUpdate.getRoleDescribe())){
             throw new NullParameterException("roleDescribe");
         }
-        if(menuIdsToAccess == null){
-            throw new NullParameterException("ids");
-        }
 
         //1.更新角色，并获取roleId
         platformRoleDAO.updateByPrimaryKeySelective(roleToUpdate);
@@ -119,20 +114,15 @@ public class PlatformRoleServiceImpl implements PlatformRoleService {
 
         Assert.notNull(roleId, "更新的角色ID，不可能为空");
 
-        //2.删除角色和原来菜单关系
-        if(menuIdsToAccess.length > 1)
+        //2.维护角色和菜单关系
+        if(menuIdsToAccess != null){
+            //删除原有关系
             platformRole2MenuDAO.deleteByRoleId(roleId);
 
-        //保存角色和菜单关系
-        for(int mId : menuIdsToAccess){
-            if(mId == -1){ //根节点为虚拟节点，id=-1，去除
-                continue;
-            }
-            PlatformRole2Menu r2m = new PlatformRole2Menu();
-            r2m.setMenuId(mId);
-            r2m.setRoleId(roleId);
-            platformRole2MenuDAO.insert(r2m);
+            //建立新的关系
+            keepRolesToUser(roleId, menuIdsToAccess);
         }
+
     }
 
     /**
@@ -146,5 +136,20 @@ public class PlatformRoleServiceImpl implements PlatformRoleService {
             throw new NullParameterException("id");
         }
         return platformRoleDAO.selectByPrimaryKey(id);
+    }
+
+    /**
+     * 保存角色和菜单关系
+     */
+    private void keepRolesToUser(Integer roleId, int... menuIdsToAccess){
+        for(int mId : menuIdsToAccess){
+            if(mId == -1){ //根节点为虚拟节点，id=-1，去除
+                continue;
+            }
+            PlatformRole2Menu r2m = new PlatformRole2Menu();
+            r2m.setMenuId(mId);
+            r2m.setRoleId(roleId);
+            platformRole2MenuDAO.insert(r2m);
+        }
     }
 }

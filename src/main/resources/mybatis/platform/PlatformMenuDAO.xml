@@ -35,7 +35,7 @@
   </select>
 
   <select id="selectEnableJsTreeMenu"  resultMap="BaseResultMap">
-    SELECT ID, MENU_NAME, PARENT_MENU_ID
+    SELECT ID, MENU_NAME, PARENT_MENU_ID, MENU_LEVEL
     FROM t_sys_menu
     WHERE STATUS = 1
   </select>

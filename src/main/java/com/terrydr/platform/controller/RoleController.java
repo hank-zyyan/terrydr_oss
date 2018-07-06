@@ -27,7 +27,7 @@ public class RoleController {
 
     private static final Log logger = LogFactory.getLog(RoleController.class);
 
-    /** 页面跳转 **/
+    /* 页面跳转 **/
 
     /**
      * 跳转：角色列表页面
@@ -43,7 +43,7 @@ public class RoleController {
      * @return
      */
     @GetMapping("/add")
-    String add() {
+    public String add() {
         return "platform/role/add";
     }
 
@@ -54,13 +54,13 @@ public class RoleController {
      * @return
      */
     @GetMapping("/edit/{id}")
-    String edit(@PathVariable("id") Integer id, Model model) {
+    public String edit(@PathVariable("id") Integer id, Model model) {
         PlatformRole platformRole = OSSContext.getPlatformRoleService().getRoleById(id);
         model.addAttribute("role", platformRole);
         return "platform/role/edit";
     }
 
-    /** 数据返回 **/
+    /* 数据返回 **/
 
     /**
      * 角色列表数据
@@ -68,9 +68,8 @@ public class RoleController {
      */
     @GetMapping("/list")
     @ResponseBody()
-    List<PlatformRole> list() {
-        List<PlatformRole> roles = OSSContext.getPlatformRoleService().getAllRoles();
-        return roles;
+    public List<PlatformRole> list() {
+        return OSSContext.getPlatformRoleService().getAllRoles();
     }
 
     @PostMapping("/save")

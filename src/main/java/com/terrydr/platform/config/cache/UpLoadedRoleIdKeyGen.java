@@ -1,6 +1,7 @@
 package com.terrydr.platform.config.cache;
 
 import com.terrydr.common.utils.OSSContext;
+import com.terrydr.platform.domain.PlatformRole;
 import org.springframework.cache.interceptor.KeyGenerator;
 import org.springframework.stereotype.Component;
 
@@ -16,12 +17,15 @@ import java.lang.reflect.Method;
  * @version: 1.00
  */
 @Component
-public class PlatformMenuKeyGen implements KeyGenerator {
+public class UpLoadedRoleIdKeyGen implements KeyGenerator {
 
     @Override
     public Object generate(Object target, Method method, Object... params) {
-        if(OSSContext.isAuthenticated()){
-            return OSSContext.getCurrentUser().getRoleId();
+        for(Object obj : params){
+            if(obj instanceof PlatformRole){
+                PlatformRole role = (PlatformRole)obj;
+                return role.getId();
+            }
         }
         return null;
     }
