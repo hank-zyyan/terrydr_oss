@@ -2,6 +2,8 @@ package com.terrydr.common.webSocket;
 
 import com.terrydr.common.domain.User;
 import com.terrydr.common.utils.OSSContext;
+import org.apache.commons.logging.Log;
+import org.apache.commons.logging.LogFactory;
 import org.springframework.messaging.Message;
 import org.springframework.messaging.MessageChannel;
 import org.springframework.messaging.simp.stomp.StompCommand;
@@ -19,12 +21,16 @@ import org.springframework.messaging.support.MessageHeaderAccessor;
  * @version: 1.00
  */
 public class TerrydrWebSocketChannelInterceptor extends ChannelInterceptorAdapter {
+
+    private Log logger = LogFactory.getLog(TerrydrWebSocketChannelInterceptor.class);
+
     @Override
     public Message<?> preSend(Message<?> message, MessageChannel channel) {
         StompHeaderAccessor accessor = MessageHeaderAccessor.getAccessor(message, StompHeaderAccessor.class);
         if (StompCommand.CONNECT.equals(accessor.getCommand())) {
             // 设置当前访问器的认证用户
-            accessor.setUser(new User(OSSContext.getAccessToken()));
+            logger.debug(accessor.getUser().getName());
+
             /*Object raw = message.getHeaders().get(SimpMessageHeaderAccessor.NATIVE_HEADERS);
             if (raw instanceof Map) {
                 Object name = ((Map) raw).get("name");

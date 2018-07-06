@@ -68,6 +68,50 @@
     family_is_glaucoma, family_is_hypertension, family_other, smoke, drink, sport, electr_time, 
     last_update_time, is_delete
   </sql>
+
+  <select id="selectCustomersByParams" resultMap="BaseResultMap">
+    SELECT
+    id, name, teleno, id_card, medical_card_id, medical_card_type, doctor_name, hospital_name, create_time
+    FROM t_customer
+    <where>
+      <if test="nameLike != null and nameLike != ''"> and name like CONCAT(#{nameLike}, '%') </if>
+      <if test="telenoLike != null and telenoLike != ''"> and teleno like CONCAT(#{telenoLike}, '%') </if>
+      <if test="idCardLike != null and idCardLike != ''"> and id_card like CONCAT(#{idCardLike}, '%') </if>
+      <if test="medicalCardIdLike != null and medicalCardIdLike != ''"> and medical_card_id like CONCAT(#{medicalCardIdLike}, '%') </if>
+      <if test="doctorNameLike != null and doctorNameLike != ''"> and doctor_name like CONCAT(#{doctorNameLike}, '%') </if>
+      <if test="isDelete != null and isDelete != ''"> and is_delete = #{isDelete} </if>
+      <if test="beginDate != null and beginDate != ''"> and date(create_time) &gt;= #{beginDate} </if>
+      <if test="endDate != null and endDate != ''"> and date(create_time) &lt;= #{endDate} </if>
+    </where>
+    <choose>
+      <when test="order != null and order.trim() != ''">
+        order by ${order} ${orderDirection}
+      </when>
+      <otherwise>
+        order by id desc
+      </otherwise>
+    </choose>
+    <if test="offset != null and limit != null">
+      limit #{offset}, #{limit}
+    </if>
+  </select>
+
+  <select id="countByParams" resultType="java.lang.Long">
+    SELECT
+    count(1)
+    FROM t_customer
+    <where>
+      <if test="nameLike != null and nameLike != ''"> and name like CONCAT(#{nameLike}, '%') </if>
+      <if test="telenoLike != null and telenoLike != ''"> and teleno like CONCAT(#{telenoLike}, '%') </if>
+      <if test="idCardLike != null and idCardLike != ''"> and id_card like CONCAT(#{idCardLike}, '%') </if>
+      <if test="medicalCardIdLike != null and medicalCardIdLike != ''"> and medical_card_id like CONCAT(#{medicalCardIdLike}, '%') </if>
+      <if test="doctorNameLike != null and doctorNameLike != ''"> and doctor_name like CONCAT(#{doctorNameLike}, '%') </if>
+      <if test="isDelete != null and isDelete != ''"> and is_delete = #{isDelete} </if>
+      <if test="beginDate != null and beginDate != ''"> and date(create_time) &gt;= #{beginDate} </if>
+      <if test="endDate != null and endDate != ''"> and date(create_time) &lt;= #{endDate} </if>
+    </where>
+  </select>
+
   <select id="selectByPrimaryKey" parameterType="java.lang.Integer" resultMap="BaseResultMap">
     select 
     <include refid="Base_Column_List" />

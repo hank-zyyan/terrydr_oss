@@ -18,6 +18,24 @@ oss:
       testOnReturn: false
 #      poolPreparedStatements: flase
 #      maxOpenPreparedStatements: 20
+    eye:
+      url: jdbc:mysql://rm-bp1s25fp25851pg96to.mysql.rds.aliyuncs.com:3306/eye_dev?useUnicode=true&characterEncoding=utf8
+      driver: com.mysql.jdbc.Driver
+      username: terrydr_dev
+      password: Terrydr2017
+      filters: stat,wall
+      maxActive: 5
+      initialSize: 1
+      maxWait: 60000
+      minIdle: 1
+      timeBetweenEvictionRunsMillis: 60000
+      minEvictableIdleTimeMillis: 300000
+      validationQuery: select '1'
+      testWhileIdle: true
+      testOnBorrow: true
+      testOnReturn: false
+#      poolPreparedStatements: flase
+#      maxOpenPreparedStatements: 20
 
 #日志配置
 logging:

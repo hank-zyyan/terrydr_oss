@@ -61,4 +61,8 @@ public class Constant {
     //Shiro Session Name
     public static final String SESSION_ID_COOKIE_NAME = "COM.TERRYDR.SESSIONID.COOKIE";
 
+
+    //WebSocket
+    public static final String DEFAULT_DESTINATION = "/query";
+
 }

@@ -1,7 +1,5 @@
 package com.terrydr.common.dao;
 
-import java.util.List;
-
 /**
  * Copyright (C), 2018-2020, NanJing Terrydr. Co., Ltd.
  *

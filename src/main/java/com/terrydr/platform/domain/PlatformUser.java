@@ -2,9 +2,11 @@ package com.terrydr.platform.domain;
 
 import com.terrydr.common.domain.OSSObject;
 
+import javax.security.auth.Subject;
+import java.security.Principal;
 import java.util.Date;
 
-public class PlatformUser extends OSSObject {
+public class PlatformUser extends OSSObject implements Principal{
 
     @Override
     public String toString() {
@@ -15,6 +17,15 @@ public class PlatformUser extends OSSObject {
                 ", userRealName='" + userRealName + '\'' +
                 ", status='" + status + '\'' +
                 '}';
+    }
+
+    /**
+     * 返回唯一，为stomp提供伪单对单能力
+     * @return
+     */
+    @Override
+    public String getName() {
+        return this.userName;
     }
 
     private Integer roleId;

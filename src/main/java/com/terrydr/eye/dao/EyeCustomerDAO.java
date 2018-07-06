@@ -1,17 +1,27 @@
 package com.terrydr.eye.dao;
 
+import com.terrydr.common.dao.EntityDAO;
 import com.terrydr.eye.domain.EyeCustomer;
+import org.springframework.stereotype.Repository;
 
-public interface EyeCustomerDAO {
-    int deleteByPrimaryKey(Integer id);
+import java.util.List;
+import java.util.Map;
 
-    int insert(EyeCustomer record);
+@Repository
+public interface EyeCustomerDAO extends EntityDAO<EyeCustomer>{
 
-    int insertSelective(EyeCustomer record);
+    /**
+     * 根据参数，查询客户
+     * @param params
+     * @return
+     */
+    List<EyeCustomer> selectCustomersByParams(Map<String, Object> params);
 
-    EyeCustomer selectByPrimaryKey(Integer id);
+    /**
+     * 根据参数，查询客户数量
+     * @param params
+     * @return
+     */
+    long countByParams(Map<String, Object> params);
 
-    int updateByPrimaryKeySelective(EyeCustomer record);
-
-    int updateByPrimaryKey(EyeCustomer record);
 }

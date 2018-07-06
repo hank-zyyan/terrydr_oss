@@ -24,7 +24,7 @@ import java.sql.SQLException;
  * @Date: 2018/4/16 14:12
  * @version: 1.00
  */
-@Configuration
+@Configuration("platformDataSourceConfig")
 public class DataSourceConfig {
 
     private static final Log logger = LogFactory.getLog(DataSourceConfig.class);

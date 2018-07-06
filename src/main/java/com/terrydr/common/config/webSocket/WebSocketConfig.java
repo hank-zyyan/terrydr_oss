@@ -73,7 +73,7 @@ public class WebSocketConfig implements WebSocketMessageBrokerConfigurer {
 */
     @Override
     public void configureClientInboundChannel(ChannelRegistration registration) {
-        registration.interceptors(new TerrydrWebSocketChannelInterceptor());
+//        registration.interceptors(new TerrydrWebSocketChannelInterceptor());
         registration.taskExecutor()
                 .corePoolSize(32)
                 .maxPoolSize(200)

@@ -1,0 +1,21 @@
+<!DOCTYPE html>
+<html>
+<meta charset="utf-8">
+<head th:include="include :: header"></head>
+<body class="gray-bg">
+	<div class="wrapper wrapper-content animated fadeInRight">
+		<div class="row">
+			<div class="col-sm-12">
+				<div class="row" style="height: 17px;width: 170px;margin: 5px auto 10px;background-image: url(/img/basic_info.png);">
+				</div>
+
+				<div class="form-group">
+					<label class="control-label">姓名：</label>
+					<input  class="form-control" type="text" th:value="${customer.name}">
+				</div>
+			</div>
+		</div>
+	</div>
+	<div th:include="include::footer"></div>
+</body>
+</html>

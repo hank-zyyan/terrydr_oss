@@ -191,7 +191,7 @@ public class PlatformMenuServiceImpl implements PlatformMenuService{
     * @date 6/15/2018 10:50 AM
     */
     @Override
-    @Transactional
+    @Transactional("platformTransactionManager")
     @CacheEvict(allEntries=true)
     public int saveMenu(PlatformMenu menu) {
         if(StringUtils.isEmpty(menu.getMenuName())){
@@ -226,7 +226,7 @@ public class PlatformMenuServiceImpl implements PlatformMenuService{
     * @date 6/15/2018 10:50 AM
     */
     @Override
-    @Transactional
+    @Transactional("platformTransactionManager")
     @CacheEvict(allEntries=true)
     public int forbidMenu(Integer id) {
         if(id == null){
@@ -244,7 +244,7 @@ public class PlatformMenuServiceImpl implements PlatformMenuService{
      * @date 6/15/2018 10:50 AM
      */
     @Override
-    @Transactional
+    @Transactional("platformTransactionManager")
     @CacheEvict(allEntries=true)
     public int startMenu(Integer id) {
         if(id == null){

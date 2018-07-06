@@ -13,4 +13,10 @@ import com.terrydr.common.domain.Response;
  */
 public class WebSocketResponse extends Response{
 
+    public static WebSocketResponse response(String msg){
+        WebSocketResponse webSocketResponse = new WebSocketResponse();
+        webSocketResponse.setResponseDate(System.currentTimeMillis());
+        webSocketResponse.setResponseMessage(msg);
+        return webSocketResponse;
+    }
 }

@@ -63,7 +63,7 @@ public class PlatformRoleServiceImpl implements PlatformRoleService {
      * @param menuIdsToAccess
      */
     @Override
-    @Transactional
+    @Transactional("platformTransactionManager")
     public void saveRoleWithAccessableMenus(PlatformRole roleToSave, int... menuIdsToAccess) {
         logger.debug(menuIdsToAccess);
         roleToSave.setCreateTime(null);

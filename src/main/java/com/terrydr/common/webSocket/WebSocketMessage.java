@@ -14,8 +14,5 @@ import java.util.Date;
  * @version: 1.00
  */
 public class WebSocketMessage extends Message{
-    public WebSocketMessage(){
-        super.setMsgDate(new Date());
-    }
 
 }

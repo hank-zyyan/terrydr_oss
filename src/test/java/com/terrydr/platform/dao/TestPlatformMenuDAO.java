@@ -23,7 +23,7 @@ import javax.annotation.Resource;
  */
 @RunWith(SpringRunner.class)
 @SpringBootTest(classes = TerrydrOSSApplication.class)
-@Transactional
+@Transactional("platformTransactionManager")
 public class TestPlatformMenuDAO {
 
     private Logger log = LoggerFactory.getLogger(TestPlatformMenuDAO.class);

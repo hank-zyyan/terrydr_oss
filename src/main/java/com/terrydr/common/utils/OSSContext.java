@@ -1,6 +1,8 @@
 package com.terrydr.common.utils;
 
 import com.terrydr.common.service.CacheService;
+import com.terrydr.common.service.WebSocketService;
+import com.terrydr.eye.service.EyeCustomerService;
 import com.terrydr.platform.domain.PlatformUser;
 import com.terrydr.platform.properties.PlatformDataSourceProperties;
 import com.terrydr.platform.service.PlatformLogService;
@@ -112,6 +114,14 @@ public class OSSContext {
 
     public static PlatformLogService getPlatformLogService(){
         return serviceContext.getService(PlatformLogService.class);
+    }
+
+    public static EyeCustomerService getEyeCustomerService(){
+        return serviceContext.getService(EyeCustomerService.class);
+    }
+
+    public static WebSocketService getWebSocketService(){
+        return serviceContext.getService(WebSocketService.class);
     }
 
     /** property section **/

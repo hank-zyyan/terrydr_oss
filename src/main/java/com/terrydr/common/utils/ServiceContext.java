@@ -3,6 +3,8 @@ package com.terrydr.common.utils;
 import com.terrydr.common.exception.service.NullParameterException;
 import com.terrydr.common.exception.service.ServiceNotFoundException;
 import com.terrydr.common.service.CacheService;
+import com.terrydr.common.service.WebSocketService;
+import com.terrydr.eye.service.EyeCustomerService;
 import com.terrydr.platform.service.PlatformLogService;
 import com.terrydr.platform.service.PlatformMenuService;
 import com.terrydr.platform.service.PlatformRoleService;
@@ -85,4 +87,15 @@ public class ServiceContext {
     public void setPlatformLogService(PlatformLogService platformLogService) {
         setService(PlatformLogService.class, platformLogService);
     }
+
+    @Autowired
+    public void setEyeCustomerService(EyeCustomerService eyeCustomerService) {
+        setService(EyeCustomerService.class, eyeCustomerService);
+    }
+
+    @Autowired
+    public void setWebSocketService(WebSocketService webSocketService) {
+        setService(WebSocketService.class, webSocketService);
+    }
+
 }

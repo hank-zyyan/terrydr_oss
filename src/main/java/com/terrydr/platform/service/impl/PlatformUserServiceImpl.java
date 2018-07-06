@@ -146,7 +146,7 @@ public class PlatformUserServiceImpl implements PlatformUserService{
      * @date 6/15/2018 10:50 AM
      */
     @Override
-    @Transactional
+    @Transactional("platformTransactionManager")
     public int forbidUser(Integer id) {
         if(id == null){
             throw new NullParameterException("id");
@@ -163,7 +163,7 @@ public class PlatformUserServiceImpl implements PlatformUserService{
     * @date 6/15/2018 5:09 PM
     */
     @Override
-    @Transactional
+    @Transactional("platformTransactionManager")
     public int forbidUsers(Integer... ids) {
         if(ids == null){
             throw new NullParameterException("ids");
@@ -183,7 +183,7 @@ public class PlatformUserServiceImpl implements PlatformUserService{
      * @date 6/15/2018 10:50 AM
      */
     @Override
-    @Transactional
+    @Transactional("platformTransactionManager")
     public int startUser(Integer id) {
         if(id == null){
             throw new NullParameterException("id");
@@ -200,7 +200,7 @@ public class PlatformUserServiceImpl implements PlatformUserService{
     * @date 6/15/2018 5:10 PM
     */
     @Override
-    @Transactional
+    @Transactional("platformTransactionManager")
     public int startUsers(Integer... ids) {
         if(ids == null){
             throw new NullParameterException("ids");
